@@ -115,11 +115,38 @@ public class RegistrationView extends JPanel{
         grid.anchor = GridBagConstraints.CENTER;
         add(registerButton, grid);
 
+    }
 
+    public String obtainFirstName(){
+        return firstNameField.getText();
+    }
 
+    public String obtainLastName(){
+        return lastNameField.getText();
+    }
 
+    public String obtainEmail(){
+        return emailField.getText();
+    }
 
+    public char[] obtainPassword(){
+        return passwordField.getPassword();
+    }
 
+    public char[] obtainConfirmPassword(){
+        return confirmPasswordField.getPassword();
+    }
+
+    public void clearFields(){
+        firstNameField.setText("");
+        lastNameField.setText("");
+        emailField.setText("");
+        passwordField.setText("");
+        confirmPasswordField.setText("");
+    }
+
+    public void addRegisterListener(ActionListener actionListener){
+        registerButton.addActionListener(actionListener);
     }
 
     public static void main(String[] args) {
@@ -127,13 +154,14 @@ public class RegistrationView extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         RegistrationView registrationView = new RegistrationView();
 
-//        registrationView.addLoginListener(e -> {
-//            String username = registrationView.obtainUsername();
-//            char[] password = registrationView.obtainPassword();
-//
-//            JOptionPane.showConfirmDialog(frame,
-//                    "Login Successful!\nUsername: " + username + "\nPassword: " + new String(password));
-//        });
+        registrationView.addRegisterListener(e -> {
+            String firstName = registrationView.obtainFirstName();
+            String lastName = registrationView.obtainLastName();
+            String email = registrationView.obtainEmail();
+
+            JOptionPane.showConfirmDialog(frame,
+                    "Registration Successful!\nFirstname: " + firstName + "\nLastName: " + lastName + "\nEmail: "+ email);
+        });
 
         frame.getContentPane().add(registrationView);
         frame.pack();
