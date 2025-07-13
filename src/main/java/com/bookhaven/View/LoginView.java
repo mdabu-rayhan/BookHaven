@@ -128,6 +128,7 @@ public class LoginView extends JPanel {
 
         frame.getContentPane().add(loginView);
         frame.pack();
+        frame.setSize(500, 600); // Set a larger frame size
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
