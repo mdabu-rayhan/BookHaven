@@ -15,7 +15,7 @@ public class RegistrationView extends JPanel {
     public RegistrationView() {
         setLayout(new GridBagLayout());
         GridBagConstraints grid = new GridBagConstraints();
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
         grid.insets = new Insets(10, 5, 10, 5);  // Increased vertical spacing
 
         // Create larger fonts
@@ -122,14 +122,14 @@ public class RegistrationView extends JPanel {
     private JTextField createTextField(Font font) {
         JTextField field = new JTextField(20);
         field.setFont(font);
-        field.setPreferredSize(new Dimension(250, 35));
+        field.setPreferredSize(new Dimension(75, 35));
         return field;
     }
 
     private JPasswordField createPasswordField(Font font) {
         JPasswordField field = new JPasswordField(20);
         field.setFont(font);
-        field.setPreferredSize(new Dimension(250, 35));
+        field.setPreferredSize(new Dimension(175, 35));
         return field;
     }
 
