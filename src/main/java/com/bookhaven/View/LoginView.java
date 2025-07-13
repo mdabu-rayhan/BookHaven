@@ -13,7 +13,6 @@ public class LoginView extends JPanel {
     public LoginView() {
         setLayout(new GridBagLayout());
         GridBagConstraints grid = new GridBagConstraints();
-
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // tittle
