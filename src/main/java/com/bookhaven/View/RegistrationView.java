@@ -87,7 +87,7 @@ public class RegistrationView extends JPanel{
         grid.anchor = GridBagConstraints.LINE_START;
         add(passwordField, grid);
 
-        JLabel confirmPasswordLable = new JLabel("Password:");
+        JLabel confirmPasswordLable = new JLabel("Confirm Password:");
         grid.gridx = 0;
         grid.gridy = 5;
         grid.anchor = GridBagConstraints.LINE_END;
@@ -98,6 +98,23 @@ public class RegistrationView extends JPanel{
         grid.gridy = 5;
         grid.anchor = GridBagConstraints.LINE_START;
         add(confirmPasswordField, grid);
+
+        // Add some vertical space before registration panel
+        grid.gridx = 0;
+        grid.gridy = 6;
+        grid.gridwidth = 2;
+        grid.insets = new Insets(24, 0, 0, 0);
+        grid.anchor = GridBagConstraints.CENTER;
+        add(Box.createVerticalStrut(24), grid);
+
+        registerButton = new JButton("Submit");
+        grid.gridx = 0;
+        grid.gridy = 8;
+        grid.gridwidth = 2;
+        grid.insets = new Insets(6, 6, 6, 6);
+        grid.anchor = GridBagConstraints.CENTER;
+        add(registerButton, grid);
+
 
 
 
