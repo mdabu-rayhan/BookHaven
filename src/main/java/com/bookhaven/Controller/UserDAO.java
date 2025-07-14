@@ -12,6 +12,7 @@ public class UserDAO {
 
     public static boolean createUser(User user){
         if(!checkByMail(user.getEmail())){
+            // after checking email, creates user row on db
             String query =  "INSERT INTO USERS ( FIRSTNAME,LASTNAME,EMAIL,PASSWORD) VALUES (?, ?, ?, ? )";
             try(Connection connection = DatabaseManager.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
@@ -33,6 +34,7 @@ public class UserDAO {
     }
 
     public static boolean checkByMail(String email){
+        // checks if there is an existing email
         String query = "SELECT COUNT(*) FROM library_db WHERE email = ?";
         try(Connection connection = DatabaseManager.getConnection();
         PreparedStatement statement = connection.prepareStatement(query)){

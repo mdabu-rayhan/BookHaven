@@ -38,9 +38,14 @@ public class RegistrationController {
         try{
             validateFields(firstName,lastName,password,confirmPass,email);
 
-            authservice.registerUser(firstName,lastName, email, password);
+            if(authservice.registerUser(firstName,lastName, email, password)){
+                // registration successful, moving to new screen (login page after showing message)
+                //transition.navigateToDashboard(); // Assume this navigates to Dashboard
+            } else {
+                // failed registration, show user the message
+            }
 
-            //transition.navigateToDashboard(); // Assume this navigates to Dashboard
+
         } catch (RegistrationException e){
             showError(e.getMessage());
         } finally {
