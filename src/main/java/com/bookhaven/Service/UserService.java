@@ -1,7 +1,4 @@
 package com.bookhaven.Service;
-import com.bookhaven.Model.User;
-import com.bookhaven.DataAccessLayer.DatabaseManager;
-
 
 
 public class UserService {
@@ -10,7 +7,10 @@ public class UserService {
 
     }
 
+    public boolean loginUser(String email, String password) {
 
+        return false;
+    }
 }
 
 
