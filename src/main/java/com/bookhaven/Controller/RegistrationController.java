@@ -38,7 +38,7 @@ public class RegistrationController {
         try{
             validateFields(firstName,lastName,password,confirmPass,email);
 
-            authservice.registerUser(firstName,lastName, email, password, confirmPass);
+            authservice.registerUser(firstName,lastName, email, password);
         } catch (RegistrationException e){
             showError(e.getMessage());
         } finally {
@@ -71,19 +71,40 @@ public class RegistrationController {
         if(firstName.isEmpty() || lastName.isEmpty()){
             throw new RegistrationException("Fill the name fields!");
         }
+
+        if(email.isEmpty()){
+            throw new RegistrationException("Fill the email!");
+        }
+
+        if(!isValidEmail(email)){
+            throw new RegistrationException("Enter a valid email");
+        }
+
         if(passWord.length == 0){
             throw new RegistrationException("Password cannot be empty");
         }
         if(passWord.length <8){
             throw  new RegistrationException("Password should have minimum 8 characters");
         }
+
+        String passwordStr = new String(passWord);
+
+        // Check for valid characters (no spaces, no non-printables)
+        if (!passwordStr.matches("^[\\p{Print}&&[^\\s]]+$")) {
+            throw new RegistrationException("Password contains invalid characters");
+        }
+        // Combined strength validation
+        if (!(passwordStr.matches(".*[a-z].*") &&
+                passwordStr.matches(".*[A-Z].*") &&
+                passwordStr.matches(".*\\d.*") &&
+                passwordStr.matches(".*[^a-zA-Z0-9].*"))) {
+
+            throw new RegistrationException("Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character");
+        }
+
         if(!Arrays.equals(passWord,confirmPass)){
             throw new RegistrationException("Passwords do not match");
         }
-        if(isValidEmail(email)){
-            throw new RegistrationException("Enter a valid email");
-        }
-
     }
 
     private boolean isValidEmail(String email) {
