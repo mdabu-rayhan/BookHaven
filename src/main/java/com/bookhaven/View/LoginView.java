@@ -117,6 +117,7 @@ public class LoginView extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         LoginView loginView = new LoginView();
 
+        // this segemnt should be in the controller file
         loginView.addLoginListener(e -> {
             String username = loginView.obtainUsername();
             char[] password = loginView.obtainPassword();

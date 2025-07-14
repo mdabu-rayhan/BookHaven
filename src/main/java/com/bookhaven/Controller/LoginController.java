@@ -1,4 +1,5 @@
 package com.bookhaven.Controller;
 
-public class AppController {
+public class LoginController {
+
 }
