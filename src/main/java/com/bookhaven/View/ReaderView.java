@@ -1,4 +1,4 @@
 package com.bookhaven.View;
 
-public class ReaderView {
+public class   ReaderView {
 }

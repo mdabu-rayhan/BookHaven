@@ -3,6 +3,8 @@ package com.bookhaven.View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 public class RegistrationView extends JPanel {
     private JButton registerButton;
@@ -15,13 +17,16 @@ public class RegistrationView extends JPanel {
     public RegistrationView() {
         setLayout(new GridBagLayout());
         GridBagConstraints grid = new GridBagConstraints();
-        setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        setBorder(BorderFactory.createEmptyBorder(300, 100, 300, 100));
         grid.insets = new Insets(10, 5, 10, 5);  // Increased vertical spacing
 
         // Create larger fonts
-        Font labelFont = new Font("SansSerif", Font.BOLD, 18);
-        Font fieldFont = new Font("SansSerif", Font.PLAIN, 16);
+        Font labelFont = new Font("SansSerif", Font.BOLD, 12);
+        Font fieldFont = new Font("SansSerif", Font.PLAIN, 12);
         Font headerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 32);
+
+
+
 
 
         grid.gridx = 0;
@@ -133,16 +138,60 @@ public class RegistrationView extends JPanel {
         return field;
     }
 
+    public char[] getPassword(){
+        return passwordField.getPassword();
+    }
+    public String getFirstNameField() {
+        return firstNameField.getText();
+    }
+
+    public String getLastNameField() {
+        return lastNameField.getText();
+    }
+
+
+    public char[] getConfirmPasswordField() {
+        return confirmPasswordField.getPassword();
+    }
+
+    public String getEmailField() {
+        return emailField.getText().trim();
+    }
+    public void clearPasswordFields(){
+        passwordField.setText("");
+        confirmPasswordField.setText("");
+    }
+
+    public void clearForm(){
+        firstNameField.setText("");
+        lastNameField.setText("");
+        emailField.setText("");
+        clearPasswordFields();
+    }
+
+    public void addRegisterListener(ActionListener listener) {
+        registerButton.addActionListener(listener);
+    }
+
+//    public void addBackToLoginListener(MouseListener listener) {
+//        backToLoginLink.addMouseListener(listener);
+//    }
+
+
+
+
+    // temp for testing
     public static void main(String[] args) {
         JFrame frame = new JFrame("BookHaven");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        frame.setPreferredSize(new Dimension(500, 700));
+        frame.setPreferredSize(new Dimension(500, 600));
 
         frame.getContentPane().add(new RegistrationView());
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
 }
