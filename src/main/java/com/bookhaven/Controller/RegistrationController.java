@@ -39,6 +39,8 @@ public class RegistrationController {
             validateFields(firstName,lastName,password,confirmPass,email);
 
             authservice.registerUser(firstName,lastName, email, password);
+
+            //transition.navigateToDashboard(); // Assume this navigates to Dashboard
         } catch (RegistrationException e){
             showError(e.getMessage());
         } finally {
