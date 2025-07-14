@@ -3,28 +3,53 @@ package com.bookhaven.Controller;
 import com.bookhaven.Model.User;
 import com.bookhaven.DataAccessLayer.DatabaseManager;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO {
 
-    private boolean createUser(User User){
+    public static boolean createUser(User user){
+        if(!checkByMail(user.getEmail())){
+            String query =  "INSERT INTO USERS ( FIRSTNAME,LASTNAME,EMAIL,PASSWORD) VALUES (?, ?, ?, ? )";
+            try(Connection connection = DatabaseManager.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)){
+                statement.setString(1,user.getFirstName());
+                statement.setString(2, user.getSecondName());
+                statement.setString(3, user.getEmail());
+                statement.setString(4,new String(user.getPassword()));
+
+
+                return  statement.executeUpdate() > 0;
+
+            } catch (SQLException e){
+                e.printStackTrace();
+
+            }
+        }
         //this is bullshit
-        return true;
+        return false;
     }
 
-    private boolean checkByMail(String email){
-        try{
-            DatabaseManager.getConnection();
-        } catch (SQLException e){
+    public static boolean checkByMail(String email){
+        String query = "SELECT COUNT(*) FROM library_db WHERE email = ?";
+        try(Connection connection = DatabaseManager.getConnection();
+        PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1,email);
 
-            // should be printed in a message window
-            System.err.println(e.getMessage());
+            try(ResultSet resultSet = statement.executeQuery()){
+                if(resultSet.next()){
+                    return resultSet.getInt(1) > 0;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("connection to database failed");
             e.printStackTrace();
 
         }
-
-
-        return true;
+        return false;
     }
 
 }

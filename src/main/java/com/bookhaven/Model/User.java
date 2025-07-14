@@ -12,4 +12,20 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public char[] getPassword() {
+        return password;
+    }
 }
