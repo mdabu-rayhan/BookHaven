@@ -20,6 +20,10 @@ public class LoginController {
         this.transition = transition;
         this.authservice = authservice;
 
+        // *** THIS IS THE CRITICAL FIX ***
+        // Attach the handleLogin method to the button in the view.
+        this.view.addLoginListener(this::handleLogin);
+
     }
 
     private void handleLogin(ActionEvent e) {

@@ -20,13 +20,17 @@ public class RegistrationController {
         this.transition = transition;
         this.authservice = authservice;
 
+
+        // *** THIS IS THE CRITICAL FIX ***
+        // Attach the handleRegistration method to the button in the view.
+        this.view.addRegisterListener(this::handleRegistration);
     }
 
     private void attachEventListeners(){
 
     }
 
-    private void handleRegistration(ActionEvent event) throws RegistrationException {
+    private void handleRegistration(ActionEvent event) /*throws RegistrationException*/ {
 
         String firstName = view.getFirstNameField();
         String lastName = view.getLastNameField();
@@ -39,10 +43,14 @@ public class RegistrationController {
             validateFields(firstName,lastName,password,confirmPass,email);
 
             if(authservice.registerUser(firstName,lastName, email, password)){
-                // registration successful, moving to new screen (login page after showing message)
-                //transition.navigateToDashboard(); // Assume this navigates to Dashboard
+                JOptionPane.showMessageDialog(view, "Registration Successful! Please log in.");
+
+                // After successful registration, go back to the login view.
+                transition.showLoginView();
+                view.clearForm(); // Clear fields for next time
             } else {
-                // failed registration, show user the message
+
+                showError("Registration failed. The email might already be in use.");
             }
 
 

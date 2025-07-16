@@ -4,11 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 
 public class LoginView extends JPanel {
     private JButton loginButton;
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private JLabel registerLink;
 
     public LoginView() {
         setLayout(new GridBagLayout());
@@ -73,7 +75,7 @@ public class LoginView extends JPanel {
         // Registration panel at the bottom
         JPanel registerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         JLabel textLabel = new JLabel("Create your account -> ");
-        JLabel registerLink = new JLabel("<html><a href=''>Register</a></html>");
+        registerLink = new JLabel("<html><a href=''>Register</a></html>");
         registerLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
         registerLink.setForeground(new Color(0, 102, 204));
         registerLink.setFont(registerLink.getFont().deriveFont(Font.BOLD));
@@ -111,26 +113,30 @@ public class LoginView extends JPanel {
         loginButton.addActionListener(listener);
     }
 
-    // main method for test this plane independently
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("BookHaven");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        LoginView loginView = new LoginView();
-
-        // this segemnt should be in the controller file
-        loginView.addLoginListener(e -> {
-            String username = loginView.obtainUsername();
-            char[] password = loginView.obtainPassword();
-
-            JOptionPane.showConfirmDialog(frame,
-                    "Login Successful!\nUsername: " + username + "\nPassword: " + new String(password));
-        });
-
-        frame.getContentPane().add(loginView);
-        frame.pack();
-        frame.setSize(500, 600); // Set a larger frame size
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
+    public void addRegisterLinkListener(MouseAdapter listener) {
+        registerLink.addMouseListener(listener);
     }
+
+    // main method for test this plane independently
+//    public static void main(String[] args) {
+//        JFrame frame = new JFrame("BookHaven");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        LoginView loginView = new LoginView();
+//
+//        // this segemnt should be in the controller file
+//        loginView.addLoginListener(e -> {
+//            String username = loginView.obtainUsername();
+//            char[] password = loginView.obtainPassword();
+//
+//            JOptionPane.showConfirmDialog(frame,
+//                    "Login Successful!\nUsername: " + username + "\nPassword: " + new String(password));
+//        });
+//
+//        frame.getContentPane().add(loginView);
+//        frame.pack();
+//        frame.setSize(500, 600); // Set a larger frame size
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);
+//
+//    }
 }
