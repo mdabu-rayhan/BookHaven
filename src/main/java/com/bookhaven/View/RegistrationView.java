@@ -181,17 +181,17 @@ public class RegistrationView extends JPanel {
 
 
     // temp for testing
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("BookHaven");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-        frame.setPreferredSize(new Dimension(500, 600));
-
-        frame.getContentPane().add(new RegistrationView());
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
+//    public static void main(String[] args) {
+//        JFrame frame = new JFrame("BookHaven");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//
+//        frame.setPreferredSize(new Dimension(500, 600));
+//
+//        frame.getContentPane().add(new RegistrationView());
+//        frame.pack();
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);
+//    }
 
 }
