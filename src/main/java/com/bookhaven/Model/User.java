@@ -1,31 +1,69 @@
 package com.bookhaven.Model;
 
-public class User {
-    private String firstName;
-    private String secondName;
-    private String email;
-    private char[] password;
+// You need to add a dependency for a hashing library like jBCrypt to your pom.xml
+import org.mindrot.jbcrypt.BCrypt;
 
-    public User(String firstName, String secondName, String email, char[] password){
+public class User {
+    private int userId; // Important for identifying the user
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String passwordHash; // We only ever store the hash
+
+    /**
+     * Constructor for CREATING a NEW user.
+     * It takes a plaintext password and immediately hashes it.
+     */
+    public User(String firstName, String lastName, String email, char[] password) {
         this.firstName = firstName;
-        this.secondName = secondName;
+        this.lastName = lastName;
         this.email = email;
-        this.password = password;
+        // Hash the password upon creation
+        this.passwordHash = BCrypt.hashpw(new String(password), BCrypt.gensalt());
+    }
+
+    /**
+     * Constructor for LOADING an EXISTING user from the database.
+     * This constructor is used by the UserDAO. It trusts that the hash is correct.
+     */
+    public User(int userId, String firstName, String lastName, String email, String passwordHash) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+    }
+
+    // --- Getters ---
+    // There are NO setters, making the object immutable after creation.
+
+    public int getUserId() {
+        return userId;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public char[] getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    /**
+     * A utility method to check a plaintext password against the user's stored hash.
+     * This logic is often placed in the UserService, but can be here for simplicity.
+     * @param plainTextPassword The password to check.
+     * @return true if the password matches, false otherwise.
+     */
+    public boolean checkPassword(String plainTextPassword) {
+        return BCrypt.checkpw(plainTextPassword, this.passwordHash);
     }
 }

@@ -3,7 +3,7 @@ package com.bookhaven;
 import com.bookhaven.Controller.LoginController;
 import com.bookhaven.Controller.RegistrationController;
 import com.bookhaven.Service.UserService;
-import com.bookhaven.Utils.NavigationController;
+import com.bookhaven.Utils.PreLoginNavigationController;
 import com.bookhaven.View.LoginView;
 import com.bookhaven.View.RegistrationView;
 
@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Main {
+public class AppLauncher {
     public static void main(String[] args) {
         // It's best practice to run Swing applications on the Event Dispatch Thread
         SwingUtilities.invokeLater(() -> {
@@ -20,7 +20,9 @@ public class Main {
             // 1. Create the top-level frame and the main panel with CardLayout
             JFrame mainFrame = new JFrame("BookHaven");
             mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JPanel mainPanel = new JPanel(new CardLayout());
+            JPanel mainPanel = new JPanel();
+            CardLayout cardLayout = new CardLayout();
+            mainPanel.setLayout(cardLayout);
 
             // 2. Create ONE instance of each View
             LoginView loginView = new LoginView();
@@ -32,16 +34,16 @@ public class Main {
 
             // 4. Create ONE instance of the services and controller
             UserService userService = new UserService();
-            NavigationController navigationController = new NavigationController(mainPanel);
+            PreLoginNavigationController preLoginNavigationController = new PreLoginNavigationController(mainPanel, cardLayout);
 
             // Create the logic controllers, injecting the dependencies
-            new LoginController(loginView, userService, navigationController);
-            new RegistrationController(registrationView, userService, navigationController);
+            LoginController loginController = new LoginController(loginView, userService, preLoginNavigationController);
+            RegistrationController registrationController = new RegistrationController(registrationView, userService, preLoginNavigationController);
 
             // This listener handles the "Register" link click on the Login screen
             loginView.addRegisterLinkListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    navigationController.showRegistrationView();
+                    preLoginNavigationController.showRegistrationView();
                 }
             });
 

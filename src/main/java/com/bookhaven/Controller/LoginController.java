@@ -1,8 +1,10 @@
 package com.bookhaven.Controller;
 
+import com.bookhaven.Model.User;
 import com.bookhaven.View.LoginView;
 import com.bookhaven.Service.UserService;
-import com.bookhaven.Utils.NavigationController;
+import com.bookhaven.Utils.PreLoginNavigationController;
+import com.bookhaven.View.MainFrame;
 
 
 import javax.swing.*;
@@ -13,9 +15,9 @@ import java.util.Arrays;
 public class LoginController {
     private LoginView view;
     private UserService authservice;
-    private NavigationController transition;
+    private PreLoginNavigationController transition;
 
-    public LoginController(LoginView view, UserService authservice, NavigationController transition){
+    public LoginController(LoginView view, UserService authservice, PreLoginNavigationController transition){
         this.view = view;
         this.transition = transition;
         this.authservice = authservice;
@@ -27,15 +29,16 @@ public class LoginController {
     }
 
     private void handleLogin(ActionEvent e) {
-        String username = view.obtainUsername();
+        String email = view.obtainUsername();
         char[] passwordChars = view.obtainPassword();
         String password = new String(passwordChars);  // convert char[] to String
 
         try {
-            boolean success = authservice.loginUser(username, password);
-            if (success) {
-                JOptionPane.showMessageDialog(view, "Login successful!");
-                //transition.navigateToDashboard(); // Assume this navigates to the next screen
+            User loginedUser = authservice.loginUser(email, password);
+            if (loginedUser != null) {
+//
+                launchMainApplication(loginedUser);
+                 // Assume this navigates to the next screen
             } else {
                 JOptionPane.showMessageDialog(view, "Invalid credentials", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
@@ -47,4 +50,20 @@ public class LoginController {
             Arrays.fill(passwordChars, '\0');
         }
     }
+
+    private void launchMainApplication(User loggedInUser) {
+        SwingUtilities.invokeLater(() -> {
+            // 1. Create the View (The MainFrame)
+            MainFrame mainFrame = new MainFrame(loggedInUser); // Assuming you updated constructor
+
+            // 2. Create the Controller and GIVE it the view to control.
+            // This single line wires up all the button actions for the MainFrame.
+            MainFrameController mainFrameController = new MainFrameController(mainFrame);
+
+            // 3. Make the fully constructed and controlled main frame visible.
+            mainFrame.setVisible(true);
+        });
+    }
+
+
 }

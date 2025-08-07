@@ -3,19 +3,21 @@ package com.bookhaven.Controller;
 import com.bookhaven.Exceptions.RegistrationException;
 import com.bookhaven.View.RegistrationView;
 import com.bookhaven.Service.UserService;
-import com.bookhaven.Utils.NavigationController;
+import com.bookhaven.Utils.PreLoginNavigationController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
 
 public class RegistrationController {
     private RegistrationView view;
     private UserService authservice;
-    private NavigationController transition;
+    private PreLoginNavigationController transition;
 
-    public RegistrationController(RegistrationView view, UserService authservice, NavigationController transition){
+    public RegistrationController(RegistrationView view, UserService authservice, PreLoginNavigationController transition){
         this.view = view;
         this.transition = transition;
         this.authservice = authservice;
@@ -24,10 +26,19 @@ public class RegistrationController {
         // *** THIS IS THE CRITICAL FIX ***
         // Attach the handleRegistration method to the button in the view.
         this.view.addRegisterListener(this::handleRegistration);
+        this.view.addBackToLoginListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                transition.showLoginView();;
+                view.clearForm();
+            }
+        });
     }
 
-    private void attachEventListeners(){
-
+    private void backToLogin(MouseEvent e){
+        transition.showLoginView();
+        view.clearForm();
     }
 
     private void handleRegistration(ActionEvent event) /*throws RegistrationException*/ {
@@ -124,10 +135,9 @@ public class RegistrationController {
 
     private boolean isValidEmail(String email) {
         // Simple regex for demonstration - use proper validation in production
-        return email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+        return email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+
     }
-
-
 
 
 }

@@ -1,146 +1,197 @@
-
 package com.bookhaven.View;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
+
 public class RegistrationView extends JPanel {
+
+    // --- Fields for UI Components ---
     private JButton registerButton;
     private JTextField firstNameField;
     private JTextField lastNameField;
+    private JTextField emailField;
     private JPasswordField passwordField;
     private JPasswordField confirmPasswordField;
-    private JTextField emailField;
+    private JLabel backToLoginLink;
 
     public RegistrationView() {
+        initComponents();
+        initLayout();
+    }
+
+    /**
+     * Initializes all UI components and sets their visual properties.
+     */
+    private void initComponents() {
+        // --- Fonts ---
+        Font fieldFont = new Font("SansSerif", Font.PLAIN, 14);
+
+        // --- Text Fields with fixed preferred size ---
+        firstNameField = new JTextField();
+        firstNameField.setFont(fieldFont);
+        firstNameField.setPreferredSize(new Dimension(200, 25));
+        firstNameField.setMinimumSize(new Dimension(200, 25));
+
+        lastNameField = new JTextField();
+        lastNameField.setFont(fieldFont);
+        lastNameField.setPreferredSize(new Dimension(200, 25));
+        lastNameField.setMinimumSize(new Dimension(200, 25));
+
+        emailField = new JTextField();
+        emailField.setFont(fieldFont);
+        emailField.setPreferredSize(new Dimension(200, 25));
+        emailField.setMinimumSize(new Dimension(200, 25));
+
+        passwordField = new JPasswordField();
+        passwordField.setFont(fieldFont);
+        passwordField.setPreferredSize(new Dimension(200, 25));
+        passwordField.setMinimumSize(new Dimension(200, 25));
+
+        confirmPasswordField = new JPasswordField();
+        confirmPasswordField.setFont(fieldFont);
+        confirmPasswordField.setPreferredSize(new Dimension(200, 25));
+        confirmPasswordField.setMinimumSize(new Dimension(200, 25));
+
+        // --- Button ---
+        registerButton = new JButton("Create Account");
+        registerButton.setFont(new Font("SansSerif", Font.BOLD, 12));
+        registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        registerButton.setPreferredSize(new Dimension(140, 35));
+
+        // --- Link ---
+        backToLoginLink = new JLabel("Back to Login");
+        backToLoginLink.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        backToLoginLink.setForeground(Color.BLUE);
+        backToLoginLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+
+    /**
+     * Arranges all the initialized components on the panel using GridBagLayout,
+     * with proper field sizing and left-aligned labels.
+     */
+    private void initLayout() {
         setLayout(new GridBagLayout());
-        GridBagConstraints grid = new GridBagConstraints();
-        setBorder(BorderFactory.createEmptyBorder(300, 100, 300, 100));
-        grid.insets = new Insets(10, 5, 10, 5);  // Increased vertical spacing
+        // Use a consistent border for padding
+        setBorder(BorderFactory.createEmptyBorder(30, 50, 40, 50));
 
-        // Create larger fonts
-        Font labelFont = new Font("SansSerif", Font.BOLD, 12);
-        Font fieldFont = new Font("SansSerif", Font.PLAIN, 12);
-        Font headerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 32);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8, 8, 8, 8); // Consistent spacing
 
+        // --- Row 0: Header ---
+        JLabel header = new JLabel("Create Your Account");
+        header.setFont(new Font("SansSerif", Font.BOLD, 28));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2; // Span two columns
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(0, 0, 40, 0); // Bottom margin
+        add(header, gbc);
 
+        // Reset insets for form fields
+        gbc.insets = new Insets(8, 8, 8, 8);
 
+        // --- Form Fields ---
+        int currentY = 1; // Start at the next row
 
+        // First Name
+        gbc.gridy = currentY;
+        gbc.gridx = 0;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.LINE_START; // Left align labels
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        add(new JLabel("First Name:"), gbc);
 
-        grid.gridx = 0;
-        grid.gridy = 0;
-        grid.gridwidth = 2;
-        grid.anchor = GridBagConstraints.CENTER;
-        grid.insets = new Insets(0, 0, 30, 0);  // Bottom margin
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.fill = GridBagConstraints.NONE; // Don't stretch horizontally
+        gbc.weightx = 0;
+        add(firstNameField, gbc);
+        currentY++;
 
-        JLabel header = new JLabel("Registration Form");
-        header.setFont(headerFont);
-        add(header, grid);
+        // Last Name
+        gbc.gridy = currentY;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.LINE_START; // Left align labels
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        add(new JLabel("Last Name:"), gbc);
 
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        add(lastNameField, gbc);
+        currentY++;
 
-        grid.gridwidth = 1;
-        grid.insets = new Insets(5, 5, 5, 5);
-        grid.anchor = GridBagConstraints.LINE_START;
+        // Email Address
+        gbc.gridy = currentY;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.LINE_START; // Left align labels
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        add(new JLabel("Email Address:"), gbc);
 
-        // ===== 2. FIRST NAME =====
-        grid.gridy = 1;
-        add(createLabel("First Name:", labelFont), grid);
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        add(emailField, gbc);
+        currentY++;
 
-        grid.gridy = 2;
-        grid.fill = GridBagConstraints.HORIZONTAL;
-        grid.weightx = 1.0;
-        firstNameField = createTextField(fieldFont);
-        add(firstNameField, grid);
+        // Password
+        gbc.gridy = currentY;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.LINE_START; // Left align labels
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        add(new JLabel("Password:"), gbc);
 
-        // ===== 3. LAST NAME =====
-        grid.gridy = 3;
-        grid.fill = GridBagConstraints.NONE;
-        grid.weightx = 0;
-        add(createLabel("Last Name:", labelFont), grid);
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        add(passwordField, gbc);
+        currentY++;
 
-        grid.gridy = 4;
-        grid.fill = GridBagConstraints.HORIZONTAL;
-        grid.weightx = 1.0;
-        lastNameField = createTextField(fieldFont);
-        add(lastNameField, grid);
+        // Confirm Password
+        gbc.gridy = currentY;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.LINE_START; // Left align labels
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        add(new JLabel("Confirm Password:"), gbc);
 
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        add(confirmPasswordField, gbc);
+        currentY++;
 
-        grid.gridy = 5;
-        grid.fill = GridBagConstraints.NONE;
-        grid.weightx = 0;
-        add(createLabel("Email Address:", labelFont), grid);
+        // --- Row for Register Button ---
+        gbc.gridx = 0;
+        gbc.gridy = currentY++;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.NONE; // Don't stretch the button
+        gbc.weightx = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(30, 0, 0, 0);
+        add(registerButton, gbc);
 
-        grid.gridy = 6;
-        grid.fill = GridBagConstraints.HORIZONTAL;
-        grid.weightx = 1.0;
-        emailField = createTextField(fieldFont);
-        add(emailField, grid);
-
-        // ===== 5. PASSWORD =====
-        grid.gridy = 7;
-        grid.fill = GridBagConstraints.NONE;
-        grid.weightx = 0;
-        add(createLabel("Password:", labelFont), grid);
-
-        grid.gridy = 8;
-        grid.fill = GridBagConstraints.HORIZONTAL;
-        grid.weightx = 1.0;
-        passwordField = createPasswordField(fieldFont);
-        add(passwordField, grid);
-
-
-        grid.gridy = 9;
-        grid.fill = GridBagConstraints.NONE;
-        grid.weightx = 0;
-        add(createLabel("Confirm Password:", labelFont), grid);
-
-        grid.gridy = 10;
-        grid.fill = GridBagConstraints.HORIZONTAL;
-        grid.weightx = 1.0;
-        confirmPasswordField = createPasswordField(fieldFont);
-        add(confirmPasswordField, grid);
-
-
-        grid.gridy = 11;
-        grid.gridx = 0;
-        grid.gridwidth = 2;
-        grid.fill = GridBagConstraints.NONE;
-        grid.weightx = 0;
-        grid.anchor = GridBagConstraints.CENTER;
-        grid.insets = new Insets(30, 0, 0, 0);  // Top margin
-
-        registerButton = new JButton("Register");
-        registerButton.setFont(new Font("SansSerif", Font.BOLD, 16));
-        registerButton.setPreferredSize(new Dimension(150, 40));
-        add(registerButton, grid);
+        // --- Row for Back to Login Link ---
+        gbc.gridy = currentY;
+        gbc.insets = new Insets(15, 0, 0, 0);
+        add(backToLoginLink, gbc);
     }
 
 
-    private JLabel createLabel(String text, Font font) {
-        JLabel label = new JLabel(text);
-        label.setFont(font);
-        return label;
-    }
+    // --- PUBLIC API FOR THE CONTROLLER (No changes needed here) ---
 
-    private JTextField createTextField(Font font) {
-        JTextField field = new JTextField(20);
-        field.setFont(font);
-        field.setPreferredSize(new Dimension(75, 35));
-        return field;
-    }
-
-    private JPasswordField createPasswordField(Font font) {
-        JPasswordField field = new JPasswordField(20);
-        field.setFont(font);
-        field.setPreferredSize(new Dimension(175, 35));
-        return field;
-    }
-
-    public char[] getPassword(){
-        return passwordField.getPassword();
-    }
     public String getFirstNameField() {
         return firstNameField.getText();
     }
@@ -149,20 +200,24 @@ public class RegistrationView extends JPanel {
         return lastNameField.getText();
     }
 
+    public String getEmailField() {
+        return emailField.getText().trim();
+    }
+
+    public char[] getPassword() {
+        return passwordField.getPassword();
+    }
 
     public char[] getConfirmPasswordField() {
         return confirmPasswordField.getPassword();
     }
 
-    public String getEmailField() {
-        return emailField.getText().trim();
-    }
-    public void clearPasswordFields(){
+    public void clearPasswordFields() {
         passwordField.setText("");
         confirmPasswordField.setText("");
     }
 
-    public void clearForm(){
+    public void clearForm() {
         firstNameField.setText("");
         lastNameField.setText("");
         emailField.setText("");
@@ -173,25 +228,11 @@ public class RegistrationView extends JPanel {
         registerButton.addActionListener(listener);
     }
 
-//    public void addBackToLoginListener(MouseListener listener) {
-//        backToLoginLink.addMouseListener(listener);
-//    }
-
-
-
-
-    // temp for testing
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame("BookHaven");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//
-//        frame.setPreferredSize(new Dimension(500, 600));
-//
-//        frame.getContentPane().add(new RegistrationView());
-//        frame.pack();
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);
-//    }
-
+    public void addBackToLoginListener(MouseAdapter listener) {
+        // Remove old listeners before adding a new one to prevent duplicates
+        for (MouseListener oldListener : backToLoginLink.getMouseListeners()) {
+            backToLoginLink.removeMouseListener(oldListener);
+        }
+        backToLoginLink.addMouseListener(listener);
+    }
 }

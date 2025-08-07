@@ -2,99 +2,111 @@ package com.bookhaven.View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 
+/**
+ * The LoginView panel provides the UI for user authentication.
+ * It is a "dumb" component, meaning it contains no logic, only UI elements.
+ * It provides public methods for a Controller to get user input and attach event listeners.
+ */
 public class LoginView extends JPanel {
+
+    // --- Fields for UI Components ---
+    // These are now instance variables so they can be accessed by all methods in this class.
     private JButton loginButton;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JLabel registerLink;
 
+    /**
+     * The main constructor that builds the entire view.
+     */
     public LoginView() {
-        setLayout(new GridBagLayout());
-        GridBagConstraints grid = new GridBagConstraints();
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        initComponents(); // Create and style all the components
+        initLayout();   // Arrange all the components on the panel
+    }
 
-        // tittle
-        JLabel tittleLable = new JLabel("Book Reader Login");
-        tittleLable.setFont(new Font("SansSerif", Font.BOLD, 24));
-        grid.gridx = 0;
-        grid.gridy = 0;
-        grid.gridwidth = 2;
-        grid.insets = new Insets(0, 0, 20, 0);
-        grid.anchor = GridBagConstraints.CENTER;
-        add(tittleLable, grid);
+    /**
+     * Initializes all UI components and sets their visual properties.
+     */
+    private void initComponents() {
+        // --- Buttons ---
+        loginButton = new JButton("Login");
+        loginButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // username
-        JLabel usernameLable = new JLabel("Username:");
-        grid.gridx = 0;
-        grid.gridy = 1;
-        grid.gridwidth = 1;
-        grid.insets = new Insets(6, 6, 6, 6);
-        grid.anchor = GridBagConstraints.LINE_END;
-        add(usernameLable, grid);
-
-        usernameField = new JTextField(20);
-        grid.gridx = 1;
-        grid.gridy = 1;
-        grid.anchor = GridBagConstraints.LINE_START;
-        add(usernameField, grid);
-
-        // password
-        JLabel passwordLable = new JLabel("Password:");
-        grid.gridx = 0;
-        grid.gridy = 2;
-        grid.anchor = GridBagConstraints.LINE_END;
-        add(passwordLable, grid);
+        // --- Text Fields ---
+        usernameField = new JTextField(20); // 20 columns wide
+        usernameField.setFont(new Font("SansSerif", Font.PLAIN, 14));
 
         passwordField = new JPasswordField(20);
-        grid.gridx = 1;
-        grid.gridy = 2;
-        grid.anchor = GridBagConstraints.LINE_START;
-        add(passwordField, grid);
+        passwordField.setFont(new Font("SansSerif", Font.PLAIN, 14));
 
-        // Button
-        loginButton = new JButton("Login");
-        grid.gridx = 0;
-        grid.gridy = 3;
-        grid.gridwidth = 2;
-        grid.insets = new Insets(16, 0, 16, 0);
-        grid.anchor = GridBagConstraints.CENTER;
-        add(loginButton, grid);
-
-        // Add some vertical space before registration panel
-        grid.gridx = 0;
-        grid.gridy = 5;
-        grid.gridwidth = 2;
-        grid.insets = new Insets(24, 0, 0, 0);
-        grid.anchor = GridBagConstraints.CENTER;
-        add(Box.createVerticalStrut(24), grid);
-
-        // Registration panel at the bottom
-        JPanel registerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        JLabel textLabel = new JLabel("Create your account -> ");
+        // --- Labels and Links ---
         registerLink = new JLabel("<html><a href=''>Register</a></html>");
+        registerLink.setFont(new Font("SansSerif", Font.BOLD, 12));
         registerLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        registerLink.setForeground(new Color(0, 102, 204));
-        registerLink.setFont(registerLink.getFont().deriveFont(Font.BOLD));
-        registerLink.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                JOptionPane.showMessageDialog(LoginView.this, "Go to Register Page!");
-            }
-        });
-        registerPanel.add(textLabel);
-        registerPanel.add(registerLink);
-        registerPanel.setOpaque(false);
-        grid.gridx = 0;
-        grid.gridy = 5;
-        grid.gridwidth = 2;
-        grid.insets = new Insets(24, 0, 0, 0);
-        grid.anchor = GridBagConstraints.CENTER;
-        add(registerPanel, grid);
-
     }
+
+    /**
+     * Arranges all the initialized components on the panel using GridBagLayout.
+     */
+    private void initLayout() {
+        setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30)); // Padding around the whole panel
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8, 8, 8, 8); // Consistent spacing between components
+        gbc.anchor = GridBagConstraints.CENTER; // Make components fill their horizontal space
+
+        // --- Row 0: Title ---
+        JLabel titleLabel = new JLabel("BookHaven Login");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2; // Span two columns
+        add(titleLabel, gbc);
+
+        // --- Row 1: Username ---
+        gbc.gridy = 1;
+        gbc.gridwidth = 1; // Reset to one column
+        add(new JLabel("Username:"), gbc);
+
+        gbc.gridx = 1;
+        add(usernameField, gbc);
+
+        // --- Row 2: Password ---
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        add(new JLabel("Password:"), gbc);
+
+        gbc.gridx = 1;
+        add(passwordField, gbc);
+
+        // --- Row 3: Login Button ---
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2; // Span two columns
+        gbc.fill = GridBagConstraints.NONE; // Don't stretch the button
+        gbc.anchor = GridBagConstraints.CENTER; // Center it
+        add(loginButton, gbc);
+
+        // --- Row 4: Registration Link ---
+        // Create a small panel to hold the "Create account" text and the link together
+        JPanel registerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        registerPanel.add(new JLabel("Don't have an account?"));
+        registerPanel.add(registerLink);
+
+        gbc.gridy = 4;
+        gbc.insets = new Insets(20, 0, 0, 0); // Add some top margin
+        add(registerPanel, gbc);
+    }
+
+    // --- PUBLIC API FOR THE CONTROLLER ---
+    // These methods allow the controller to interact with the view.
 
     public String obtainUsername() {
         return usernameField.getText();
@@ -109,34 +121,21 @@ public class LoginView extends JPanel {
         passwordField.setText("");
     }
 
+    /**
+     * Allows a controller to add an action listener to the login button.
+     */
     public void addLoginListener(ActionListener listener) {
         loginButton.addActionListener(listener);
     }
 
+    /**
+     * Allows a controller to add a mouse listener to the register link.
+     */
     public void addRegisterLinkListener(MouseAdapter listener) {
+        // It's good practice to remove old listeners before adding a new one
+        for (MouseListener oldListener : registerLink.getMouseListeners()) {
+            registerLink.removeMouseListener(oldListener);
+        }
         registerLink.addMouseListener(listener);
     }
-
-    // main method for test this plane independently
-//    public static void main(String[] args) {
-//        JFrame frame = new JFrame("BookHaven");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        LoginView loginView = new LoginView();
-//
-//        // this segemnt should be in the controller file
-//        loginView.addLoginListener(e -> {
-//            String username = loginView.obtainUsername();
-//            char[] password = loginView.obtainPassword();
-//
-//            JOptionPane.showConfirmDialog(frame,
-//                    "Login Successful!\nUsername: " + username + "\nPassword: " + new String(password));
-//        });
-//
-//        frame.getContentPane().add(loginView);
-//        frame.pack();
-//        frame.setSize(500, 600); // Set a larger frame size
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);
-//
-//    }
 }
