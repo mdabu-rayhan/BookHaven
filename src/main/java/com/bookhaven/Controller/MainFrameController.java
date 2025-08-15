@@ -42,8 +42,13 @@ public class MainFrameController {
         mainFrame.getReadingListButton().addActionListener(e ->{
            // here the functionalities to be written
 
-            mainFrame.showView("READING_LIST");
+
+
+
             readingListController.loadUserReadingList();
+            mainFrame.showView("READING_LIST");
+            new ReadingListController(mainFrame,bookService, mainFrame.getUserId());
+
         });
 
 

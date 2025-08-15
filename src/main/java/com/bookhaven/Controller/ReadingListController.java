@@ -3,6 +3,7 @@ package com.bookhaven.Controller;
 import com.bookhaven.Model.Book;
 import com.bookhaven.Service.BookService;
 import com.bookhaven.View.MainFrame;
+import com.bookhaven.View.ReaderView;
 import com.bookhaven.View.ReadingListView; // Assuming you have this view
 
 import java.util.List;
@@ -15,7 +16,8 @@ public class ReadingListController {
 
     private final MainFrame mainFrame;
     private final BookService bookService;
-    private final int currentUserId; // The ID of the currently logged-in user
+    private final int currentUserId;
+    private ReadingListView readingListView;// The ID of the currently logged-in user
 
     /**
      * Constructor for the ReadingListController.
@@ -27,12 +29,10 @@ public class ReadingListController {
         this.mainFrame = mainFrame;
         this.bookService = bookService;
         this.currentUserId = userId;
+        this.readingListView = mainFrame.getReadingListView();
 
-        // --- Future Step ---
-        // When you are ready to implement the reader, you will add a listener here.
-        // It will listen for clicks on books within the ReadingListView to open the ReaderView.
-        // For example:
-        // this.mainFrame.getReadingListView().setOnBookSelected(this::handleBookSelectionForReading);
+
+         readingListView.setOnBookSelected(this::handleBookSelectionForReading);
     }
 
     /**
@@ -58,8 +58,12 @@ public class ReadingListController {
      * This method will be called when a user clicks a book in their reading list.
      * It will be responsible for navigating to the ReaderView.
      */
-    // private void handleBookSelectionForReading(Book selectedBook) {
-    //     System.out.println("User wants to read: " + selectedBook.getTitle());
-    //     // Logic to get the ReaderView and tell the MainFrame to show it will go here.
-    // }
+     private void handleBookSelectionForReading(Book selectedBook) {
+         ReaderView readerView = mainFrame.getReaderView();
+         readerView.displayBook(selectedBook);
+
+
+         mainFrame.showView("READER");
+
+     }
 }

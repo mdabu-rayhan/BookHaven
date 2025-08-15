@@ -22,6 +22,7 @@ public class LibraryController {
 
         // Attach the listener that will handle book selection
         this.libraryView.setOnBookSelected(this::handleBookSelection);
+
     }
 
     /**

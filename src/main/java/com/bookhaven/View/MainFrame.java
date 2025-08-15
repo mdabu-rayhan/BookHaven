@@ -21,19 +21,22 @@ public class MainFrame extends JFrame{
     private JPanel mainPanel;
     private BookDetailsView bookDetailsView;
     private ReadingListView readingListView;
+    private ReaderView readerView;
 
     // --- UI Components that need to be accessed by a Controller ---
     private CustomJButton homeButton;
     private CustomJButton libraryButton;
     private CustomJButton readingListButton;
     private CustomJButton profileButton;
-
-    // --- References to the different View Panels ---
+    private ProfileView profileView;
     private WelcomeView welcomeView;
     private LibraryView libraryView;
+
+
+    // --- References to the different View Panels ---
+
 //    private JPanel readingListView; // Placeholder
-    private ProfileView profileView;
-    private ReaderView readerView;// Placeholder
+
 
     public MainFrame(User user) {
         // --- 1. Basic Window Setup ---
@@ -160,6 +163,8 @@ public class MainFrame extends JFrame{
 
     public ReadingListView getReadingListView() {
         return readingListView; }
+
+
     public int getUserId(){
         return  userId;
     }
