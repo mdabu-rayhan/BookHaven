@@ -2,6 +2,7 @@ package com.bookhaven.Controller;
 
 import com.bookhaven.Model.Book;
 import com.bookhaven.Service.BookService;
+import com.bookhaven.View.BookDetailsView;
 import com.bookhaven.View.LibraryView;
 import com.bookhaven.View.MainFrame;
 import com.bookhaven.View.ReaderView;
@@ -35,14 +36,22 @@ public class LibraryController {
      * This method is called when a book is clicked in the LibraryView.
      * @param selectedBook The book that the user clicked on.
      */
+//    private void handleBookSelection(Book selectedBook) {
+//        BookDetailsView bookDetailsView = mainFrame.getBookDetailsView();
+//        bookDetailsView.displayBookDetails(selectedBook);
+//        // Show details
+//        mainFrame.showView("BOOK_DETAILS"); // Switch to details view
+//    }
+
     private void handleBookSelection(Book selectedBook) {
-        // 1. Get the ReaderView instance from the MainFrame
-        ReaderView readerView = mainFrame.getReaderView();
+        BookDetailsView bookDetailsView = mainFrame.getBookDetailsView();
+        bookDetailsView.displayBookDetails(selectedBook);
+        boolean inList = bookService.isBookInReadingList(mainFrame.getUserId(), selectedBook.getBookId());
+        bookDetailsView.setInReadingList(inList);
 
-        // 2. Tell the ReaderView to display the details of the selected book
-        readerView.displayBook(selectedBook);
+        // Instantiate BookDetailsController to attach listeners
+        new BookDetailsController(mainFrame, mainFrame.getUserId());
 
-        // 3. Tell the MainFrame to switch its view to the "READER" card
-        mainFrame.showView("READER");
+        mainFrame.showView("BOOK_DETAILS");
     }
 }

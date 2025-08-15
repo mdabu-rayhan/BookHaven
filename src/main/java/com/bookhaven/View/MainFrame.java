@@ -14,10 +14,13 @@ import java.awt.*;
  */
 public class MainFrame extends JFrame{
     private String userName;
+    private int userId;
 
     // --- Layout and View Management ---
     private CardLayout cardLayout;
     private JPanel mainPanel;
+    private BookDetailsView bookDetailsView;
+    private ReadingListView readingListView;
 
     // --- UI Components that need to be accessed by a Controller ---
     private CustomJButton homeButton;
@@ -28,13 +31,14 @@ public class MainFrame extends JFrame{
     // --- References to the different View Panels ---
     private WelcomeView welcomeView;
     private LibraryView libraryView;
-    private JPanel readingListView; // Placeholder
-    private JPanel profileView;
+//    private JPanel readingListView; // Placeholder
+    private ProfileView profileView;
     private ReaderView readerView;// Placeholder
 
     public MainFrame(User user) {
         // --- 1. Basic Window Setup ---
         this.userName = user.getFirstName();
+        this.userId = user.getUserId();
         setTitle("BookHaven Library");
         setSize(1200, 800);
         setLocationRelativeTo(null);
@@ -96,9 +100,10 @@ public class MainFrame extends JFrame{
         readerView = new ReaderView();
 
         // Placeholders for views to be developed later
-        readingListView = new JPanel();
-        readingListView.add(new JLabel("This is your Reading List."));
-        profileView = new JPanel();
+        readingListView = new ReadingListView();
+
+        bookDetailsView = new BookDetailsView();
+        profileView = new ProfileView();
         profileView.add(new JLabel("This is your Profile."));
 
         // Add the views to the main panel with unique String keys
@@ -107,6 +112,8 @@ public class MainFrame extends JFrame{
         mainPanel.add(readingListView, "READING_LIST");
         mainPanel.add(profileView, "PROFILE");
         mainPanel.add(readerView, "READER");
+        mainPanel.add(bookDetailsView, "BOOK_DETAILS");
+        mainPanel.add(readingListView, "READING_LIST");
 
 
         add(mainPanel, BorderLayout.CENTER);
@@ -146,6 +153,15 @@ public class MainFrame extends JFrame{
     }
     public ReaderView getReaderView(){
         return readerView;
+    }
+
+    public BookDetailsView getBookDetailsView() {
+        return bookDetailsView; }
+
+    public ReadingListView getReadingListView() {
+        return readingListView; }
+    public int getUserId(){
+        return  userId;
     }
 
     // You can add getters for other views as controllers need them

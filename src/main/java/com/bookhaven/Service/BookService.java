@@ -1,19 +1,23 @@
 package com.bookhaven.Service;
 
 import com.bookhaven.Controller.BookDAO; // Or wherever your DAO is
+import com.bookhaven.Controller.ReadingListDAO;
 import com.bookhaven.Model.Book;
 // You will also need a ProgressDAO later
 // import com.bookhaven.Controller.ProgressDAO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BookService {
 
     private BookDAO bookDAO;
+    private ReadingListDAO readingListDAO;
     // private ProgressDAO progressDAO; // You will add this later
 
     public BookService() {
         this.bookDAO = new BookDAO();
+        this.readingListDAO = new ReadingListDAO();
         // this.progressDAO = new ProgressDAO();
     }
 
@@ -36,11 +40,24 @@ public class BookService {
         return bookDAO.getBookById(bookId);
     }
 
-    // You will add more methods here as your application grows, for example:
-    /*
-    public void updateUserProgress(int userId, int bookId, int pageNumber) {
-        // 1. Validate the page number
-        // 2. Call progressDAO.saveProgress(userId, bookId, pageNumber)
+    // --- NEW METHODS ---
+    public boolean addBookToUserList(int userId, int bookId) {
+        return readingListDAO.addBookToReadingList(userId, bookId);
     }
-    */
+
+    public boolean removeBookFromUserList(int userId, int bookId){
+        return readingListDAO.removeBookFromReadingList(userId,bookId);
+    }
+
+    public List<Book> getBooksForUser(int userId) {
+        List<Integer> bookIds = readingListDAO.getBookIdsForUser(userId);
+        // Using Java Streams to efficiently get the book details for each ID
+        return bookIds.stream()
+                .map(bookDAO::getBookById) // Same as .map(id -> bookDAO.getBookById(id))
+                .collect(Collectors.toList());
+    }
+
+    public boolean isBookInReadingList(int userId, int bookId){
+        return readingListDAO.isBookInReadingList(userId,bookId);
+    }
 }
