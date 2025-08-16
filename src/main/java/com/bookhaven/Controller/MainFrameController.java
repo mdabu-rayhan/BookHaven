@@ -1,32 +1,29 @@
 package com.bookhaven.Controller;
 
 
-import com.bookhaven.Model.Book;
+
 import com.bookhaven.Service.BookService;
 import com.bookhaven.View.MainFrame;
 
-import java.util.List;
 
 public class MainFrameController {
 
-    private BookService bookService;
-    private MainFrame mainFrame;
-    private LibraryController libraryController;
-    private ReadingListController readingListController;
+    private final BookService bookService;
+    private final MainFrame mainFrame;
+    private final LibraryController libraryController;
+    private final ReadingListController readingListController;
 
     public MainFrameController(MainFrame mainFrame){
         this.mainFrame = mainFrame;
         this.bookService = new BookService();
         this.libraryController = new LibraryController(mainFrame);
-        this.readingListController = new ReadingListController(mainFrame,bookService,mainFrame.getUserId());
+        this.readingListController = new ReadingListController(mainFrame,mainFrame.getUserId());
         attachListeners();
 
     }
 
     public void attachListeners(){
-        mainFrame.getHomeButton().addActionListener( e ->{
-            mainFrame.showView("WELCOME");
-        });
+        mainFrame.getHomeButton().addActionListener( e -> mainFrame.showView("WELCOME"));
 
         mainFrame.getLibraryButton().addActionListener(e -> {
             // Tell the LibraryController to do its job
@@ -47,13 +44,13 @@ public class MainFrameController {
 
             readingListController.loadUserReadingList();
             mainFrame.showView("READING_LIST");
-            new ReadingListController(mainFrame,bookService, mainFrame.getUserId());
+            new ReadingListController(mainFrame, mainFrame.getUserId());
 
         });
 
 
         mainFrame.getProfileButton().addActionListener(e->{
-            // same
+
 
             mainFrame.showView("PROFILE");
         });

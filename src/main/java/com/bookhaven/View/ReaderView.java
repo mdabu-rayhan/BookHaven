@@ -15,6 +15,7 @@ public class ReaderView extends JPanel {
     private JTextArea bookContentArea;
     private JButton nextPageButton;
     private JButton prevPageButton;
+    private JButton saveButton;
 
     public ReaderView() {
         setBackground(new Color(245, 247, 250)); // Soft background
@@ -44,6 +45,8 @@ public class ReaderView extends JPanel {
         bookContentArea.setMargin(new Insets(16, 16, 16, 16));
 
         // Navigation buttons
+        saveButton = new CustomJButton("💾 Save Progress");
+        saveButton.setFont(new Font("SansSerif", Font.BOLD, 15));
         prevPageButton = new CustomJButton("\u25C0 Previous Page");
         nextPageButton = new CustomJButton("Next Page \u25B6");
         prevPageButton.setFont(new Font("SansSerif", Font.BOLD, 15));
@@ -68,6 +71,7 @@ public class ReaderView extends JPanel {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 32, 0));
         bottomPanel.setOpaque(false);
         bottomPanel.add(prevPageButton);
+        bottomPanel.add(saveButton);
         bottomPanel.add(nextPageButton);
 
         // Add all panels to the main panel
@@ -76,15 +80,50 @@ public class ReaderView extends JPanel {
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
+    public JButton getSaveButton() {
+        return saveButton;
+    }
+
+    public JButton getNextPageButton() {
+        return nextPageButton;
+    }
+
+    public JButton getPrevPageButton() {
+        return prevPageButton;
+    }
+
     /**
      * Loads a book's data into the view.
-     * @param book The Book object to display.
      */
     public void displayBook(Book book) {
         if (book != null) {
             bookTitleLabel.setText(book.getTitle());
-            // Placeholder for book content loading
-            bookContentArea.setText("Displaying content for: " + book.getTitle() + "\n\n(Full text loading will be implemented next.)");
+            bookContentArea.setText("Loading book content...");
         }
+    }
+
+    /**
+     * Displays book content with pagination info.
+     */
+    public void displayBookContent(String content, String title, int pageNum, int totalPages) {
+        bookTitleLabel.setText(title + " (Page " + pageNum + " of " + totalPages + ")");
+        bookContentArea.setText(content);
+        bookContentArea.setCaretPosition(0); // Scroll to top
+    }
+
+    /**
+     * Updates UI to reflect if this is the first page
+     * @param enabled Whether the previous button should be enabled
+     */
+    public void setPrevButtonEnabled(boolean enabled) {
+        prevPageButton.setEnabled(enabled);
+    }
+
+    /**
+     * Updates UI to reflect if this is the last page
+     * @param enabled Whether the next button should be enabled
+     */
+    public void setNextButtonEnabled(boolean enabled) {
+        nextPageButton.setEnabled(enabled);
     }
 }

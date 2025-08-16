@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public class LibraryView extends JPanel {
 
-    private JPanel bookGridPanel;
+    private final JPanel bookGridPanel;
     private Consumer<Book> onBookSelected;
 
     public LibraryView() {

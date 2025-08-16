@@ -1,10 +1,10 @@
 package com.bookhaven.Controller;
 
 import com.bookhaven.Model.Book;
-import com.bookhaven.Service.BookService;
+import com.bookhaven.Service.ReadingListService;
 import com.bookhaven.View.MainFrame;
 import com.bookhaven.View.ReaderView;
-import com.bookhaven.View.ReadingListView; // Assuming you have this view
+import com.bookhaven.View.ReadingListView;
 
 import java.util.List;
 
@@ -15,24 +15,22 @@ import java.util.List;
 public class ReadingListController {
 
     private final MainFrame mainFrame;
-    private final BookService bookService;
+    private final ReadingListService readingListService;
     private final int currentUserId;
-    private ReadingListView readingListView;// The ID of the currently logged-in user
+    private ReaderController readerController; // Keep reference to reader controller
 
     /**
      * Constructor for the ReadingListController.
      * @param mainFrame The main application window.
-     * @param bookService The service for book-related business logic.
      * @param userId The ID of the currently logged-in user.
      */
-    public ReadingListController(MainFrame mainFrame, BookService bookService, int userId) {
+    public ReadingListController(MainFrame mainFrame, int userId) {
         this.mainFrame = mainFrame;
-        this.bookService = bookService;
+        this.readingListService = new ReadingListService();
         this.currentUserId = userId;
-        this.readingListView = mainFrame.getReadingListView();
 
-
-         readingListView.setOnBookSelected(this::handleBookSelectionForReading);
+        ReadingListView readingListView = mainFrame.getReadingListView();
+        readingListView.setOnBookSelected(this::handleBookSelectionForReading);
     }
 
     /**
@@ -41,29 +39,66 @@ public class ReadingListController {
      */
     public void loadUserReadingList() {
         // 1. Get the list of books for the current user from the service layer.
-        List<Book> userBooks = bookService.getBooksForUser(currentUserId);
+        List<Book> userBooks = readingListService.getUserReadingList(currentUserId);
 
         // 2. Get the specific ReadingListView instance from the MainFrame.
         ReadingListView readingListView = mainFrame.getReadingListView();
 
         // 3. Tell the view to display this specific list of books.
-        // (This assumes your ReadingListView has a displayBooks method, just like your LibraryView).
         if (readingListView != null) {
             readingListView.displayBooks(userBooks);
         }
     }
 
     /**
-     * --- Future Step ---
-     * This method will be called when a user clicks a book in their reading list.
-     * It will be responsible for navigating to the ReaderView.
+     * Adds a book to the user's reading list.
+     * @param bookId The ID of the book to add.
+     * @return true if successfully added.
      */
-     private void handleBookSelectionForReading(Book selectedBook) {
-         ReaderView readerView = mainFrame.getReaderView();
-         readerView.displayBook(selectedBook);
+    public boolean addBookToReadingList(int bookId) {
+        boolean success = readingListService.addBookToReadingList(currentUserId, bookId);
+        if (success) {
+            // Refresh the reading list view
+            loadUserReadingList();
+        }
+        return success;
+    }
 
+    /**
+     * Removes a book from the user's reading list.
+     * @param bookId The ID of the book to remove.
+     * @return true if successfully removed.
+     */
+    public boolean removeBookFromReadingList(int bookId) {
+        boolean success = readingListService.removeBookFromReadingList(currentUserId, bookId);
+        if (success) {
+            // Refresh the reading list view
+            loadUserReadingList();
+        }
+        return success;
+    }
 
-         mainFrame.showView("READER");
+    /**
+     * Checks if a book is in the user's reading list.
+     * @param bookId The ID of the book to check.
+     * @return true if the book is in the reading list.
+     */
+    public boolean isBookInReadingList(int bookId) {
+        return readingListService.isBookInReadingList(currentUserId, bookId);
+    }
 
-     }
+    /**
+     * This method will be called when a user clicks a book in their reading list.
+     * It will be responsible for navigating to the ReaderView and loading the book content.
+     */
+    private void handleBookSelectionForReading(Book selectedBook) {
+        ReaderView readerView = mainFrame.getReaderView();
+
+        // Create reader controller and load the book
+        readerController = new ReaderController(readerView, currentUserId);
+        readerController.loadBook(selectedBook.getBookId());
+
+        // Switch to reader view
+        mainFrame.showView("READER");
+    }
 }

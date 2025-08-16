@@ -2,6 +2,7 @@ package com.bookhaven.Controller;
 
 import com.bookhaven.Model.Book;
 import com.bookhaven.Service.BookService;
+import com.bookhaven.Service.ReadingListService;
 import com.bookhaven.View.BookDetailsView;
 import com.bookhaven.View.LibraryView;
 import com.bookhaven.View.MainFrame;
@@ -14,11 +15,13 @@ public class LibraryController {
     private final MainFrame mainFrame;
     private final LibraryView libraryView;
     private final BookService bookService;
+    private final ReadingListService readingListService;
 
     public LibraryController(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         this.libraryView = mainFrame.getLibraryView(); // Get the view from the frame
         this.bookService = new BookService();
+        this.readingListService = new ReadingListService();
 
         // Attach the listener that will handle book selection
         this.libraryView.setOnBookSelected(this::handleBookSelection);
@@ -47,7 +50,7 @@ public class LibraryController {
     private void handleBookSelection(Book selectedBook) {
         BookDetailsView bookDetailsView = mainFrame.getBookDetailsView();
         bookDetailsView.displayBookDetails(selectedBook);
-        boolean inList = bookService.isBookInReadingList(mainFrame.getUserId(), selectedBook.getBookId());
+        boolean inList = readingListService.isBookInReadingList(mainFrame.getUserId(), selectedBook.getBookId());
         bookDetailsView.setInReadingList(inList);
 
         // Instantiate BookDetailsController to attach listeners

@@ -20,16 +20,6 @@ public class Book {
     }
 
 
-    public Book(int bookId, String title, String author, String synopsis, String pdfPath, String coverImagePath) {
-        this.bookId = bookId;
-        this.title = title;
-        this.author = author;
-        this.synopsis = synopsis;
-        this.pdfPath = pdfPath;
-        this.coverImagePath = coverImagePath;
-    }
-
-
     public int getBookId() {
         return bookId;
     }

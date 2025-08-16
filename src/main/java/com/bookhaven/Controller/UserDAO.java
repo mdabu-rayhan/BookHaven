@@ -8,6 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * UserDAO handles all database operations related to the 'users' table.
+ */
 public class UserDAO {
 
     /**
@@ -15,7 +18,7 @@ public class UserDAO {
      * @param user The User object to create. This object should already contain the hashed password.
      * @return true if the user was created successfully, false otherwise.
      */
-    public static boolean createUser(User user) {
+    public boolean createUser(User user) {
         String query = "INSERT INTO users (first_name, last_name, email, password_hash) VALUES (?, ?, ?, ?)";
         try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
