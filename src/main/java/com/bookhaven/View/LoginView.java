@@ -50,7 +50,7 @@ public class LoginView extends JPanel {
         registerLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    /**
+    /**A
      * Arranges all the initialized components on the panel using GridBagLayout.
      */
     private void initLayout() {
@@ -125,6 +125,9 @@ public class LoginView extends JPanel {
      * Allows a controller to add an action listener to the login button.
      */
     public void addLoginListener(ActionListener listener) {
+        for (ActionListener old : loginButton.getActionListeners()) {
+            loginButton.removeActionListener(old);
+        }
         loginButton.addActionListener(listener);
     }
 

@@ -75,20 +75,20 @@ public class RegistrationView extends JPanel {
      */
     private void initLayout() {
         setLayout(new GridBagLayout());
-        // Use a consistent border for padding
+
         setBorder(BorderFactory.createEmptyBorder(30, 50, 40, 50));
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 8, 8, 8); // Consistent spacing
+        gbc.insets = new Insets(8, 8, 8, 8);
 
-        // --- Row 0: Header ---
+
         JLabel header = new JLabel("Create Your Account");
         header.setFont(new Font("SansSerif", Font.BOLD, 28));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2; // Span two columns
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.insets = new Insets(0, 0, 40, 0); // Bottom margin
+        gbc.insets = new Insets(0, 0, 40, 0);
         add(header, gbc);
 
         // Reset insets for form fields
@@ -190,7 +190,7 @@ public class RegistrationView extends JPanel {
     }
 
 
-    // --- PUBLIC API FOR THE CONTROLLER (No changes needed here) ---
+
 
     public String getFirstNameField() {
         return firstNameField.getText();
@@ -224,7 +224,11 @@ public class RegistrationView extends JPanel {
         clearPasswordFields();
     }
 
+    // java
     public void addRegisterListener(ActionListener listener) {
+        for (ActionListener old : registerButton.getActionListeners()) {
+            registerButton.removeActionListener(old);
+        }
         registerButton.addActionListener(listener);
     }
 

@@ -1,9 +1,16 @@
 package com.bookhaven.View;
 
-import com.bookhaven.Model.User;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Font;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+
+import com.bookhaven.Model.User;
 
 /**
  * The MainFrame is the primary window of the application after login.
@@ -107,7 +114,7 @@ public class MainFrame extends JFrame{
 
         bookDetailsView = new BookDetailsView();
         profileView = new ProfileView();
-        profileView.add(new JLabel("This is your Profile."));
+        // profileView.add(new JLabel("This is your Profile."));
 
         // Add the views to the main panel with unique String keys
         mainPanel.add(welcomeView, "WELCOME");

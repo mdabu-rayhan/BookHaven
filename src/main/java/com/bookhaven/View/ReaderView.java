@@ -52,7 +52,7 @@ public class ReaderView extends JPanel {
         prevPageButton.setFont(new Font("SansSerif", Font.BOLD, 15));
         nextPageButton.setFont(new Font("SansSerif", Font.BOLD, 15));
     }
-
+//F
     /**
      * Arranges components in a visually appealing layout.
      */
@@ -61,7 +61,7 @@ public class ReaderView extends JPanel {
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setOpaque(false);
         topPanel.add(bookTitleLabel, BorderLayout.CENTER);
-
+//sy
         // Center panel for book content
         JScrollPane scrollPane = new JScrollPane(bookContentArea);
         scrollPane.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220), 1));

@@ -1,6 +1,6 @@
 package com.bookhaven.Service;
 
-import com.bookhaven.Controller.UserDAO;
+import com.bookhaven.DataAccessLayer.UserDAO;
 import com.bookhaven.Exceptions.RegistrationException;
 import com.bookhaven.Model.User;
 
@@ -13,10 +13,7 @@ public class UserService {
 
     private final UserDAO userDAO;
 
-    /**
-     * Constructor for the UserService.
-     * It initializes the UserDAO, which it will use to interact with the database.
-     */
+
     public UserService() {
         this.userDAO = new UserDAO();
     }

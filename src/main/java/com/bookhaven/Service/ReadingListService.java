@@ -1,7 +1,7 @@
 package com.bookhaven.Service;
 
-import com.bookhaven.Controller.ReadingListDAO;
-import com.bookhaven.Controller.BookDAO;
+import com.bookhaven.DataAccessLayer.ReadingListDAO;
+import com.bookhaven.DataAccessLayer.BookDAO;
 import com.bookhaven.Model.Book;
 
 import java.util.List;

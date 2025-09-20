@@ -1,7 +1,6 @@
-package com.bookhaven.Controller;
+package com.bookhaven.DataAccessLayer;
 
 import com.bookhaven.Model.User;
-import com.bookhaven.DataAccessLayer.DatabaseManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

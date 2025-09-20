@@ -1,15 +1,16 @@
 package com.bookhaven.Controller;
 
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bookhaven.Model.Book;
 import com.bookhaven.Service.BookService;
 import com.bookhaven.Service.ReadingListService;
 import com.bookhaven.View.ReaderView;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * ReaderController handles the logic for reading books and managing reading progress.
@@ -37,14 +38,24 @@ public class ReaderController {
         // Set up event handlers
         setupEventHandlers();
     }
+    
+   private void setupEventHandlers() {
+        // Remove any existing listeners to avoid multiple controllers acting on the same view
+        removeAllActionListeners(readerView.getSaveButton());
+        removeAllActionListeners(readerView.getNextPageButton());
+        removeAllActionListeners(readerView.getPrevPageButton());
 
-    private void setupEventHandlers() {
         // Wire up the navigation and save buttons
         readerView.getSaveButton().addActionListener(e -> saveCurrentProgress());
         readerView.getNextPageButton().addActionListener(e -> nextPage());
         readerView.getPrevPageButton().addActionListener(e -> previousPage());
     }
 
+    private void removeAllActionListeners(javax.swing.AbstractButton button) {
+        for (ActionListener al : button.getActionListeners()) {
+            button.removeActionListener(al);
+        }
+    }
     /**
      * Loads a book for reading and displays it in the ReaderView.
      * @param bookId The ID of the book to load.
@@ -107,6 +118,9 @@ public class ReaderController {
                 pageContent.append("This is line ").append(line).append(" of page ").append(i)
                           .append(". Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n");
             }
+
+            // Add the constructed page to the pages list
+            bookPages.add(pageContent.toString());
         }
     }
 
@@ -114,13 +128,20 @@ public class ReaderController {
      * Splits the book content into pages based on LINES_PER_PAGE.
      */
     private List<String> splitIntoPages(List<String> allLines) {
-        return allLines.stream()
-                .collect(java.util.stream.Collectors.groupingBy(
-                    line -> allLines.indexOf(line) / LINES_PER_PAGE))
-                .values()
-                .stream()
-                .map(pageLines -> String.join("\n", pageLines))
-                .collect(java.util.stream.Collectors.toList());
+        List<String> pages = new ArrayList<>();
+        if (allLines == null || allLines.isEmpty()) return pages;
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < allLines.size(); i++) {
+            sb.append(allLines.get(i)).append('\n');
+            if ((i + 1) % LINES_PER_PAGE == 0) {
+                pages.add(sb.toString());
+                sb.setLength(0);
+            }
+        }
+        if (sb.length() > 0) pages.add(sb.toString());
+
+        return pages;
     }
 
     /**

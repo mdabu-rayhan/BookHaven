@@ -1,9 +1,7 @@
 package com.bookhaven.Controller;
 
 import com.bookhaven.Model.Book;
-import com.bookhaven.Service.BookService;
 import com.bookhaven.Service.ReadingListService;
-import com.bookhaven.Service.UserService;
 import com.bookhaven.View.BookDetailsView;
 import com.bookhaven.View.MainFrame;
 import com.bookhaven.View.ReadingListView;
@@ -15,17 +13,15 @@ public class BookDetailsController {
 
     private BookDetailsView bookDetailsView;
     private MainFrame mainFrame;
-//    private BookService bookService;
-//    private UserService userService;
     private ReadingListService readingListService;
     private int userId;
 
     public BookDetailsController(MainFrame mainFrame, int userId){
         this.mainFrame = mainFrame;
         this.bookDetailsView = mainFrame.getBookDetailsView();
-//        this.bookService = new BookService();
+
         this.readingListService = new ReadingListService();
-//        this.userService = new UserService();
+
         this.userId = mainFrame.getUserId();
 
         attachListeners();
