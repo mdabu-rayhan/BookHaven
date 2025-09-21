@@ -3,8 +3,8 @@ package com.bookhaven.Controller;
 import com.bookhaven.Model.User;
 import com.bookhaven.View.LoginView;
 import com.bookhaven.Service.UserService;
-import com.bookhaven.Utils.PreLoginNavigationController;
 import com.bookhaven.View.MainFrame;
+
 
 
 import javax.swing.*;
@@ -49,6 +49,12 @@ public class LoginController {
 
     private void launchMainApplication(User loggedInUser) {
         SwingUtilities.invokeLater(() -> {
+
+            // Dispose the pre-login top-level window that contains the login view so it closes after login
+            java.awt.Window top = SwingUtilities.getWindowAncestor(view);
+            if (top != null) {
+                top.dispose();
+            }
 
             MainFrame mainFrame = new MainFrame(loggedInUser);
 

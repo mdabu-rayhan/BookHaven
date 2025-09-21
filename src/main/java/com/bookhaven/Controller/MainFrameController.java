@@ -12,12 +12,14 @@ public class MainFrameController {
     private final MainFrame mainFrame;
     private final LibraryController libraryController;
     private final ReadingListController readingListController;
+    private final ProfileController profileController;
 
     public MainFrameController(MainFrame mainFrame){
         this.mainFrame = mainFrame;
         this.bookService = new BookService();
         this.libraryController = new LibraryController(mainFrame);
         this.readingListController = new ReadingListController(mainFrame,mainFrame.getUserId());
+        this.profileController = new ProfileController(mainFrame);
         attachListeners();
 
     }
@@ -50,8 +52,7 @@ public class MainFrameController {
 
 
         mainFrame.getProfileButton().addActionListener(e->{
-
-
+            profileController.loadProfile();
             mainFrame.showView("PROFILE");
         });
     }

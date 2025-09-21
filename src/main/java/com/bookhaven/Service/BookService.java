@@ -1,35 +1,28 @@
 package com.bookhaven.Service;
 
-import com.bookhaven.DataAccessLayer.BookDAO; // Or wherever your DAO is
-import com.bookhaven.DataAccessLayer.ReadingListDAO;
 import com.bookhaven.DataAccessLayer.BookDAO;
-import com.bookhaven.DataAccessLayer.ReadingListDAO;
 import com.bookhaven.Model.Book;
-// You will also need a ProgressDAO later
-// import com.bookhaven.Controller.ProgressDAO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * BookService handles all business logic related to books.
+ * It focuses purely on book operations and delegates reading list operations to ReadingListService.
+ */
 public class BookService {
 
     private final BookDAO bookDAO;
-    private final ReadingListDAO readingListDAO;
-    // private ProgressDAO progressDAO; // You will add this later
 
     public BookService() {
         this.bookDAO = new BookDAO();
-        this.readingListDAO = new ReadingListDAO();
-        // this.progressDAO = new ProgressDAO();
     }
 
     /**
      * Gets all books available in the library.
-     * Future business logic (e.g., filtering) would go here.
+     * Future business logic (e.g., filtering, sorting) would go here.
      * @return A list of all Book objects.
      */
     public List<Book> getAllBooks() {
-        // For now, it's a simple pass-through to the DAO.
         return bookDAO.getAllBooks();
     }
 
@@ -42,25 +35,59 @@ public class BookService {
         return bookDAO.getBookById(bookId);
     }
 
-    // --- NEW METHODS ---
-    public boolean addBookToUserList(int userId, int bookId) {
-        return readingListDAO.addBookToReadingList(userId, bookId);
+    /**
+     * Adds a new book to the library.
+     * Business rules: Validate book data before adding.
+     * @param book The Book object to add.
+     * @return true if successfully added.
+     */
+    public boolean addBook(Book book) {
+        // Business rule: Validate required fields
+        if (book == null || book.getTitle() == null || book.getTitle().trim().isEmpty()) {
+            System.err.println("Book title is required");
+            return false;
+        }
+
+        if (book.getAuthor() == null || book.getAuthor().trim().isEmpty()) {
+            System.err.println("Book author is required");
+            return false;
+        }
+
+        try {
+            return bookDAO.addBook(book);
+        } catch (Exception e) {
+            System.err.println("Error adding book: " + e.getMessage());
+            return false;
+        }
     }
 
-    public boolean removeBookFromUserList(int userId, int bookId){
-        return readingListDAO.removeBookFromReadingList(userId,bookId);
+    /**
+     * Searches books by title (case-insensitive).
+     * @param title The title to search for.
+     * @return List of matching books.
+     */
+    public List<Book> searchBooksByTitle(String title) {
+        if (title == null || title.trim().isEmpty()) {
+            return getAllBooks();
+        }
+
+        return getAllBooks().stream()
+                .filter(book -> book.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .toList();
     }
 
-    public List<Book> getBooksForUser(int userId) {
-        List<Integer> bookIds = readingListDAO.getBookIdsForUser(userId);
-        // Using Java Streams to efficiently get the book details for each ID
-        return bookIds.stream()
-                .map(bookDAO::getBookById) // Same as .map(id -> bookDAO.getBookById(id))
-                .collect(Collectors.toList());
-    }
+    /**
+     * Searches books by author (case-insensitive).
+     * @param author The author to search for.
+     * @return List of matching books.
+     */
+    public List<Book> searchBooksByAuthor(String author) {
+        if (author == null || author.trim().isEmpty()) {
+            return getAllBooks();
+        }
 
-    public boolean isBookInReadingList(int userId, int bookId){
-        return readingListDAO.isBookInReadingList(userId,bookId);
+        return getAllBooks().stream()
+                .filter(book -> book.getAuthor().toLowerCase().contains(author.toLowerCase()))
+                .toList();
     }
 }
-

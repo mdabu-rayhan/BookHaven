@@ -30,7 +30,7 @@ public class BookDetailsController {
 
 
     private void attachListeners(){
-        bookDetailsView.addAddToReadingListListener(e->{
+        bookDetailsView.addToReadingListListener(e->{
             System.out.println("Working Properly");
             //getting the book object for the current book
             Book book = bookDetailsView.getCurrentBook();
@@ -54,7 +54,7 @@ public class BookDetailsController {
             }
         });
 
-        bookDetailsView.addRemoveFromReadingListListener( e->{
+        bookDetailsView.removeFromReadingListListener(e->{
             Book book = bookDetailsView.getCurrentBook();
             boolean success = readingListService.removeBookFromReadingList(userId,book.getBookId());
 

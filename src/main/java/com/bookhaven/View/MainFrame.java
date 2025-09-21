@@ -176,5 +176,7 @@ public class MainFrame extends JFrame{
         return  userId;
     }
 
+    public ProfileView getProfileView() { return profileView; }
+
     // You can add getters for other views as controllers need them
 }

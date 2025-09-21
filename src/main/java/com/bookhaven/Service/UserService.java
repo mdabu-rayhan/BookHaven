@@ -3,6 +3,7 @@ package com.bookhaven.Service;
 import com.bookhaven.DataAccessLayer.UserDAO;
 import com.bookhaven.Exceptions.RegistrationException;
 import com.bookhaven.Model.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * The UserService class handles all business logic related to users.
@@ -13,7 +14,10 @@ public class UserService {
 
     private final UserDAO userDAO;
 
-
+    /**
+     * Constructor for the UserService.
+     * It initializes the UserDAO, which it will use to interact with the database.
+     */
     public UserService() {
         this.userDAO = new UserDAO();
     }
@@ -65,5 +69,25 @@ public class UserService {
             // This prevents attackers from knowing if they guessed the email or the password correctly.
             throw new Exception("Invalid email or password.");
         }
+    }
+
+    /**
+     * Retrieves a user by id for profile display.
+     */
+    public User getUserById(int userId) {
+        return userDAO.findUserById(userId);
+    }
+
+    /**
+     * Changes the user's password after verifying the old password.
+     * @return true when updated; false when old password invalid or update fails.
+     */
+    public boolean changePassword(int userId, String oldPassword, String newPassword) {
+        if (newPassword == null || newPassword.isBlank()) return false;
+        User user = userDAO.findUserById(userId);
+        if (user == null) return false;
+        if (!user.checkPassword(oldPassword)) return false;
+        String newHash = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        return userDAO.updatePasswordHash(userId, newHash);
     }
 }

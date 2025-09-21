@@ -1,4 +1,4 @@
-package com.bookhaven.Utils;
+package com.bookhaven.Controller;
 
 import javax.swing.*;
 import java.awt.*;

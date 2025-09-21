@@ -4,10 +4,10 @@ package com.bookhaven.Model;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class User {
-    private int userId; // Important for identifying the user
-    private String firstName;
-    private String lastName;
-    private String email;
+    private int userId;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
     private String passwordHash; // We only ever store the hash
 
     /**
@@ -34,8 +34,6 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    // --- Getters ---
-    // There are NO setters, making the object immutable after creation.
 
     public int getUserId() {
         return userId;

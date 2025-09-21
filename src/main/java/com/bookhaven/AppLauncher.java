@@ -3,7 +3,7 @@ package com.bookhaven;
 import com.bookhaven.Controller.LoginController;
 import com.bookhaven.Controller.RegistrationController;
 import com.bookhaven.Service.UserService;
-import com.bookhaven.Utils.PreLoginNavigationController;
+import com.bookhaven.Controller.PreLoginNavigationController;
 import com.bookhaven.View.LoginView;
 import com.bookhaven.View.RegistrationView;
 

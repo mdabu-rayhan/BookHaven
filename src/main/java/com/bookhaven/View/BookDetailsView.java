@@ -187,11 +187,11 @@ public class BookDetailsView extends JPanel {
         return currentBook;
     }
 
-    public void addAddToReadingListListener(ActionListener listener) {
+    public void addToReadingListListener(ActionListener listener) {
         addToReadingListButton.addActionListener(listener);
     }
 
-    public void addRemoveFromReadingListListener(ActionListener listener) {
+    public void removeFromReadingListListener(ActionListener listener) {
         removeFromReadingListButton.addActionListener(listener);
     }
 }

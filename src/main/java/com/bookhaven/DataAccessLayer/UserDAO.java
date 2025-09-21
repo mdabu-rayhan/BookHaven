@@ -54,8 +54,8 @@ public class UserDAO {
                 if (resultSet.next()) {
                     // If a user is found, use the special DAO constructor
                     int userId = resultSet.getInt("user_id");
-                    String firstName = resultSet.getString("first_Name");
-                    String lastName = resultSet.getString("last_Name");
+                    String firstName = resultSet.getString("first_name");
+                    String lastName = resultSet.getString("last_name");
                     String userEmail = resultSet.getString("email");
                     String passwordHash = resultSet.getString("password_hash");
 
@@ -68,5 +68,49 @@ public class UserDAO {
             e.printStackTrace();
         }
         return user;
+    }
+
+    /**
+     * Finds a user by their unique user_id.
+     */
+    public User findUserById(int userId) {
+        String query = "SELECT * FROM users WHERE user_id = ?";
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return new User(
+                            rs.getInt("user_id"),
+                            rs.getString("first_name"),
+                            rs.getString("last_name"),
+                            rs.getString("email"),
+                            rs.getString("password_hash")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error finding user by id: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Updates the password hash for a user.
+     * @return true if updated, false otherwise.
+     */
+    public boolean updatePasswordHash(int userId, String newPasswordHash) {
+        String query = "UPDATE users SET password_hash = ? WHERE user_id = ?";
+        try (Connection connection = DatabaseManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, newPasswordHash);
+            statement.setInt(2, userId);
+            return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error updating password: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 }

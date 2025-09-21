@@ -3,7 +3,6 @@ package com.bookhaven.Controller;
 import com.bookhaven.Exceptions.RegistrationException;
 import com.bookhaven.View.RegistrationView;
 import com.bookhaven.Service.UserService;
-import com.bookhaven.Utils.PreLoginNavigationController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
