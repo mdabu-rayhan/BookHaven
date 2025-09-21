@@ -10,7 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
-
+// RegistrationController: reads fields from RegistrationView, asks UserService to register (-> UserDAO), navigates back
 public class RegistrationController {
     private RegistrationView view;
     private UserService authservice;
@@ -20,16 +20,11 @@ public class RegistrationController {
         this.view = view;
         this.transition = transition;
         this.authservice = authservice;
-
-
-        // *** THIS IS THE CRITICAL FIX ***
-        // Attach the handleRegistration method to the button in the view.
         this.view.addRegisterListener(this::handleRegistration);
         this.view.addBackToLoginListener(new MouseAdapter() {
-
             @Override
             public void mouseClicked(MouseEvent e) {
-                transition.showLoginView();;
+                transition.showLoginView();
                 view.clearForm();
             }
         });
@@ -40,36 +35,27 @@ public class RegistrationController {
         view.clearForm();
     }
 
-    private void handleRegistration(ActionEvent event) /*throws RegistrationException*/ {
-
+    private void handleRegistration(ActionEvent event) {
         String firstName = view.getFirstNameField();
         String lastName = view.getLastNameField();
         char[] password = view.getPassword();
         char[] confirmPass = view.getConfirmPasswordField();
         String email = view.getEmailField();
 
-
         try{
             validateFields(firstName,lastName,password,confirmPass,email);
-
             if(authservice.registerUser(firstName,lastName, email, password)){
                 JOptionPane.showMessageDialog(view, "Registration Successful! Please log in.");
-
-                // After successful registration, go back to the login view.
                 transition.showLoginView();
-                view.clearForm(); // Clear fields for next time
+                view.clearForm();
             } else {
-
                 showError("Registration failed. The email might already be in use.");
             }
-
-
         } catch (RegistrationException e){
             showError(e.getMessage());
         } finally {
             clearPasswordData(password, confirmPass);
         }
-
     }
 
     private void clearPasswordData(char[] password, char[] confirmPass) {
@@ -91,52 +77,37 @@ public class RegistrationController {
 
     private void validateFields (String firstName, String lastName, char[] passWord, char[] confirmPass, String email)
         throws RegistrationException{
-
-
         if(firstName.isEmpty() || lastName.isEmpty()){
             throw new RegistrationException("Fill the name fields!");
         }
-
         if(email.isEmpty()){
             throw new RegistrationException("Fill the email!");
         }
-
         if(!isValidEmail(email)){
             throw new RegistrationException("Enter a valid email");
         }
-
         if(passWord.length == 0){
             throw new RegistrationException("Password cannot be empty");
         }
         if(passWord.length <8){
             throw  new RegistrationException("Password should have minimum 8 characters");
         }
-
         String passwordStr = new String(passWord);
-
-        // Check for valid characters (no spaces, no non-printables)
         if (!passwordStr.matches("^[\\p{Print}&&[^\\s]]+$")) {
             throw new RegistrationException("Password contains invalid characters");
         }
-        // Combined strength validation
         if (!(passwordStr.matches(".*[a-z].*") &&
                 passwordStr.matches(".*[A-Z].*") &&
                 passwordStr.matches(".*\\d.*") &&
                 passwordStr.matches(".*[^a-zA-Z0-9].*"))) {
-
             throw new RegistrationException("Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character");
         }
-
         if(!Arrays.equals(passWord,confirmPass)){
             throw new RegistrationException("Passwords do not match");
         }
     }
 
     private boolean isValidEmail(String email) {
-        // Simple regex for demonstration - use proper validation in production
         return email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
-
     }
-
-
 }

@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
+// ProfileController: fills ProfileView from UserService (-> UserDAO), handles change-password and logout
 public class ProfileController {
     private final MainFrame mainFrame;
     private final ProfileView profileView;
@@ -23,7 +24,6 @@ public class ProfileController {
     private void attachListeners() {
         removeAllActionListeners(profileView.getChangePasswordButton());
         removeAllActionListeners(profileView.getLogoutButton());
-
         profileView.getChangePasswordButton().addActionListener(e -> handleChangePassword());
         profileView.getLogoutButton().addActionListener(e -> handleLogout());
     }
@@ -34,6 +34,7 @@ public class ProfileController {
         }
     }
 
+    // ask service for current user, then push into the view
     public void loadProfile() {
         int userId = mainFrame.getUserId();
         var user = userService.getUserById(userId);
@@ -70,7 +71,7 @@ public class ProfileController {
                 JOptionPane.showMessageDialog(mainFrame, "Old password incorrect or update failed.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } finally {
-            // Wipe sensitive data
+            // wipe sensitive data
             Arrays.fill(oldPw, '\0');
             Arrays.fill(newPw, '\0');
             Arrays.fill(confirmPw, '\0');
@@ -84,14 +85,13 @@ public class ProfileController {
     }
 
     private void handleLogout() {
-        // Dispose main frame and relaunch login window
+        // close main frame and relaunch login
         SwingUtilities.invokeLater(() -> {
             try {
                 if (mainFrame != null) {
                     mainFrame.dispose();
                 }
             } finally {
-                // Relaunch the pre-login flow
                 com.bookhaven.AppLauncher.main(new String[]{});
             }
         });

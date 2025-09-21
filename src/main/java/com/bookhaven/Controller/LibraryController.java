@@ -6,10 +6,10 @@ import com.bookhaven.Service.ReadingListService;
 import com.bookhaven.View.BookDetailsView;
 import com.bookhaven.View.LibraryView;
 import com.bookhaven.View.MainFrame;
-import com.bookhaven.View.ReaderView;
 
 import java.util.List;
 
+// LibraryController: asks BookService for data (-> BookDAO) and tells LibraryView to render
 public class LibraryController {
 
     private final MainFrame mainFrame;
@@ -19,41 +19,26 @@ public class LibraryController {
 
     public LibraryController(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        this.libraryView = mainFrame.getLibraryView(); // Get the view from the frame
+        this.libraryView = mainFrame.getLibraryView();
         this.bookService = new BookService();
         this.readingListService = new ReadingListService();
-
-        // Attach the listener that will handle book selection
+        // notify us when a book is clicked in the library
         this.libraryView.setOnBookSelected(this::handleBookSelection);
-
     }
 
-    /**
-     * Fetches all books from the service and tells the LibraryView to display them.
-     */
+    // pull all books via service and render them in the view
     public void loadBooksIntoView() {
         List<Book> allBooks = bookService.getAllBooks();
         libraryView.displayBooks(allBooks);
     }
 
-    /**
-     * This method is called when a book is clicked in the LibraryView.
-     * @param selectedBook The book that the user clicked on.
-     */
-//    private void handleBookSelection(Book selectedBook) {
-//        BookDetailsView bookDetailsView = mainFrame.getBookDetailsView();
-//        bookDetailsView.displayBookDetails(selectedBook);
-//        // Show details
-//        mainFrame.showView("BOOK_DETAILS"); // Switch to details view
-//    }
-
+    // when a book is selected: populate details view and show it
     private void handleBookSelection(Book selectedBook) {
         BookDetailsView bookDetailsView = mainFrame.getBookDetailsView();
         bookDetailsView.displayBookDetails(selectedBook);
         boolean inList = readingListService.isBookInReadingList(mainFrame.getUserId(), selectedBook.getBookId());
         bookDetailsView.setInReadingList(inList);
-
-        // Instantiate BookDetailsController to attach listeners
+        // attach handlers for add/remove in details screen
         new BookDetailsController(mainFrame, mainFrame.getUserId());
 
         mainFrame.showView("BOOK_DETAILS");

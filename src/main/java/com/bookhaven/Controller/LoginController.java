@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 
-
+// LoginController: reads input from LoginView, asks UserService to authenticate (-> UserDAO), then opens MainFrame
 public class LoginController {
     private LoginView view;
     private UserService authservice;
@@ -21,9 +21,7 @@ public class LoginController {
         this.view = view;
         this.transition = transition;
         this.authservice = authservice;
-
         this.view.addLoginListener(this::handleLogin);
-
     }
 
     private void handleLogin(ActionEvent e) {
@@ -35,7 +33,6 @@ public class LoginController {
             User loginedUser = authservice.loginUser(email, password);
             if (loginedUser != null) {
                 launchMainApplication(loginedUser);
-
             } else {
                 JOptionPane.showMessageDialog(view, "Invalid credentials", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
@@ -49,22 +46,14 @@ public class LoginController {
 
     private void launchMainApplication(User loggedInUser) {
         SwingUtilities.invokeLater(() -> {
-
-            // Dispose the pre-login top-level window that contains the login view so it closes after login
+            // close the login window so we don't keep two frames around
             java.awt.Window top = SwingUtilities.getWindowAncestor(view);
             if (top != null) {
                 top.dispose();
             }
-
             MainFrame mainFrame = new MainFrame(loggedInUser);
-
-
-            MainFrameController mainFrameController = new MainFrameController(mainFrame);
-
-
+            new MainFrameController(mainFrame); // wire navigation and views
             mainFrame.setVisible(true);
         });
     }
-
-
 }
