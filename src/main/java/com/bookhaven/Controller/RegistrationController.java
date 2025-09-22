@@ -10,7 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
-// RegistrationController: reads fields from RegistrationView, asks UserService to register (-> UserDAO), navigates back
+
 public class RegistrationController {
     private RegistrationView view;
     private UserService authservice;

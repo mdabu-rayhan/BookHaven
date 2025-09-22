@@ -79,7 +79,7 @@ public class MainFrame extends JFrame{
             button.setFocusable(false);
         }
 
-        // --- Add components to the toolbar for center alignment ---
+
         toolBar.add(Box.createHorizontalGlue());
         toolBar.add(homeButton);
         toolBar.add(Box.createHorizontalStrut(10));

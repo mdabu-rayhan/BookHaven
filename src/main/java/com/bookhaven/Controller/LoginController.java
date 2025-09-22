@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 
-// LoginController: reads input from LoginView, asks UserService to authenticate (-> UserDAO), then opens MainFrame
+
 public class LoginController {
     private LoginView view;
     private UserService authservice;

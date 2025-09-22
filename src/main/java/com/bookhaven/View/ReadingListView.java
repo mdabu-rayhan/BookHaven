@@ -82,11 +82,7 @@ public class ReadingListView extends JPanel {
         bookGridPanel.repaint();
     }
 
-    /**
-     * Allows a controller to set the action to be performed when a book is selected.
-     * This is crucial for navigating to the ReaderView.
-     * @param listener A Consumer that will accept the clicked Book object.
-     */
+
     public void setOnBookSelected(Consumer<Book> listener) {
         this.onBookSelected = listener;
     }

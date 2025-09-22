@@ -3,7 +3,7 @@ package com.bookhaven.Controller;
 import javax.swing.*;
 import java.awt.*;
 
-// PreLoginNavigationController: switches between Login and Registration views in the pre-login frame
+
 public class PreLoginNavigationController {
     private final JPanel mainPanel;
     private final CardLayout cardLayout;

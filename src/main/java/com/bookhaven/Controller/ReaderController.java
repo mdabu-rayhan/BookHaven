@@ -24,7 +24,7 @@ public class ReaderController {
     private List<String> bookPages;
     private int currentPageIndex;
 
-    private static final int LINES_PER_PAGE = 40; // simple page size for text files
+    private static final int LINES_PER_PAGE = 40;
 
     public ReaderController(ReaderView readerView, int userId) {
         this.readerView = readerView;

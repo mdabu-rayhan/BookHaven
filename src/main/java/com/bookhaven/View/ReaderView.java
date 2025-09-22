@@ -1,4 +1,4 @@
-// Java
+
 package com.bookhaven.View;
 
 import com.bookhaven.Model.Book;
@@ -121,6 +121,4 @@ public class ReaderView extends JPanel {
         adjustContentWidth();
     }
 
-    public void setPrevButtonEnabled(boolean enabled) { prevPageButton.setEnabled(enabled); }
-    public void setNextButtonEnabled(boolean enabled) { nextPageButton.setEnabled(enabled); }
 }

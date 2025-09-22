@@ -23,14 +23,12 @@ public class RegistrationView extends JPanel {
         initLayout();
     }
 
-    /**
-     * Initializes all UI components and sets their visual properties.
-     */
+
     private void initComponents() {
-        // --- Fonts ---
+
         Font fieldFont = new Font("SansSerif", Font.PLAIN, 14);
 
-        // --- Text Fields with fixed preferred size ---
+
         firstNameField = new JTextField();
         firstNameField.setFont(fieldFont);
         firstNameField.setPreferredSize(new Dimension(200, 25));
@@ -56,23 +54,20 @@ public class RegistrationView extends JPanel {
         confirmPasswordField.setPreferredSize(new Dimension(200, 25));
         confirmPasswordField.setMinimumSize(new Dimension(200, 25));
 
-        // --- Button ---
+
         registerButton = new JButton("Create Account");
         registerButton.setFont(new Font("SansSerif", Font.BOLD, 12));
         registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         registerButton.setPreferredSize(new Dimension(140, 35));
 
-        // --- Link ---
+
         backToLoginLink = new JLabel("Back to Login");
         backToLoginLink.setFont(new Font("SansSerif", Font.PLAIN, 12));
         backToLoginLink.setForeground(Color.BLUE);
         backToLoginLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
-    /**
-     * Arranges all the initialized components on the panel using GridBagLayout,
-     * with proper field sizing and left-aligned labels.
-     */
+
     private void initLayout() {
         setLayout(new GridBagLayout());
 
@@ -91,10 +86,10 @@ public class RegistrationView extends JPanel {
         gbc.insets = new Insets(0, 0, 40, 0);
         add(header, gbc);
 
-        // Reset insets for form fields
+        // reset insets for form fields
         gbc.insets = new Insets(8, 8, 8, 8);
 
-        // --- Form Fields ---
+
         int currentY = 1; // Start at the next row
 
         // First Name
@@ -173,7 +168,7 @@ public class RegistrationView extends JPanel {
         add(confirmPasswordField, gbc);
         currentY++;
 
-        // --- Row for Register Button ---
+        // reg button
         gbc.gridx = 0;
         gbc.gridy = currentY++;
         gbc.gridwidth = 2;
@@ -183,7 +178,7 @@ public class RegistrationView extends JPanel {
         gbc.insets = new Insets(30, 0, 0, 0);
         add(registerButton, gbc);
 
-        // --- Row for Back to Login Link ---
+        //
         gbc.gridy = currentY;
         gbc.insets = new Insets(15, 0, 0, 0);
         add(backToLoginLink, gbc);

@@ -1,4 +1,4 @@
-// java
+
 package com.bookhaven.View;
 
 import javax.imageio.ImageIO;
@@ -7,10 +7,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * WelcomeView is a standalone JPanel that draws a background image
- * and centers a semi-transparent text panel on top.
- */
+
 public class WelcomeView extends JPanel {
     private final String userName;
     private Image backgroundImage;
