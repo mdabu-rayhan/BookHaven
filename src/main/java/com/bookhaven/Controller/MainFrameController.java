@@ -28,21 +28,14 @@ public class MainFrameController {
         mainFrame.getHomeButton().addActionListener( e -> mainFrame.showView("WELCOME"));
 
         mainFrame.getLibraryButton().addActionListener(e -> {
-            // Tell the LibraryController to do its job
             libraryController.loadBooksIntoView();
             mainFrame.showView("LIBRARY");
             new LibraryController(mainFrame).loadBooksIntoView();
-
-
 
         });
         
 
         mainFrame.getReadingListButton().addActionListener(e ->{
-           // here the functionalities to be written
-
-
-
 
             readingListController.loadUserReadingList();
             mainFrame.showView("READING_LIST");

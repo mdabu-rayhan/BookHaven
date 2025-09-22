@@ -9,16 +9,11 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.function.Consumer;
 
-/**
- * The ReadingListView displays the collection of books a user has personally
- * added to their reading list.
- * Its structure and functionality are nearly identical to the LibraryView,
- * but it will be populated with a different set of data.
- */
+// shows the list of books reader is currently reading
 public class ReadingListView extends JPanel {
 
     private JPanel bookGridPanel;
-    private Consumer<Book> onBookSelected; // Callback for when a book is clicked
+    private Consumer<Book> onBookSelected;
 
     public ReadingListView() {
         setLayout(new BorderLayout(10, 10));
@@ -29,20 +24,16 @@ public class ReadingListView extends JPanel {
         title.setFont(new Font("SansSerif", Font.BOLD, 28));
         add(title, BorderLayout.NORTH);
 
-        // The grid panel will hold all the book covers
+
         bookGridPanel = new JPanel(new GridLayout(0, 5, 15, 15)); // 5 columns, with gaps
 
-        // The scroll pane allows the user to scroll if they have many books
+
         JScrollPane scrollPane = new JScrollPane(bookGridPanel);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    /**
-     * This public method is called by the ReadingListController to populate the view.
-     * It clears the panel and redraws it with the user's specific list of books.
-     * @param books The list of Book objects to display.
-     */
+   // all the reading list books display
     public void displayBooks(List<Book> books) {
         bookGridPanel.removeAll(); // Clear previous books
 

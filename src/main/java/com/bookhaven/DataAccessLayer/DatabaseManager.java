@@ -10,6 +10,8 @@ public class DatabaseManager {
     private static final String DB_username = "this_is_admin";
     private static final String DB_password = "my_admin_password_369";
 
+
+    //prevents creating object, only used to establissh conncetion
     private DatabaseManager(){
     };
 

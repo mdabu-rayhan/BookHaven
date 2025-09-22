@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 public class BookDAO {
 
     // quick helper to estimate total pages from a txt file (by line count)
+    // needed to add new book,not used currently
     private int calculateTotalPages(String txtFilePath) {
         final int LINES_PER_PAGE = 40;
         if (txtFilePath == null || txtFilePath.trim().isEmpty()) {
@@ -31,7 +32,7 @@ public class BookDAO {
         }
     }
 
-    // map a ResultSet row to a Book
+    // this just creates a resultset that is ceated from the book for query into a book objct
     private Book mapRowToBook(ResultSet rs) throws SQLException {
         Book book = new Book();
         book.setBookId(rs.getInt("book_id"));
@@ -52,6 +53,7 @@ public class BookDAO {
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 books.add(mapRowToBook(rs));
+                // here using the map row book to get all the book list as ocject
             }
         } catch (SQLException e) {
             // swallow and return empty list; callers can decide what to do
@@ -71,13 +73,16 @@ public class BookDAO {
                 }
             }
         } catch (SQLException e) {
-            // return null
+            // null book
         }
         return book;
     }
 
+    // no usage now, used to add book manually
     public boolean addBook(Book book) {
-        if (book == null) return false;
+        if (book == null) {
+            return false;
+        }
         if ((book.getTotalPages() <= 0) && book.getPdfPath() != null) {
             int pages = calculateTotalPages(book.getPdfPath());
             if (pages > 0) book.setTotalPages(pages);

@@ -12,8 +12,7 @@ import com.bookhaven.Service.BookService;
 import com.bookhaven.Service.ReadingListService;
 import com.bookhaven.View.ReaderView;
 
-// Controller for the reader screen.
-// We ask Services for data (which talk to DAOs) and push results into the View.
+
 public class ReaderController {
 
     private final BookService bookService;
@@ -52,8 +51,7 @@ public class ReaderController {
         }
     }
 
-    // Entry point when a user clicks a book in reading list.
-    // Flow: Controller -> BookService -> BookDAO to load metadata, then we load text and paginate.
+
     public void loadBook(int bookId) {
         currentBook = bookService.getBookById(bookId);
         if (currentBook == null) {
@@ -61,7 +59,7 @@ public class ReaderController {
             return;
         }
 
-        // Load text from a .txt path (if missing or unreadable, we fall back to mock pages)
+        
         if (!loadBookContent(currentBook.getPdfPath())) {
             showError("Could not load book content");
             return;

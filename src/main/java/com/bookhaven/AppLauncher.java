@@ -14,7 +14,6 @@ import java.awt.event.MouseEvent;
 
 public class AppLauncher {
     public static void main(String[] args) {
-        // It's best practice to run Swing applications on the Event Dispatch Thread
         SwingUtilities.invokeLater(() -> {
 
 

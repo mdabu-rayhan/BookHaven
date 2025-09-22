@@ -29,24 +29,23 @@ public class MainFrame extends JFrame{
     private BookDetailsView bookDetailsView;
     private ReadingListView readingListView;
     private ReaderView readerView;
-
-    // --- UI Components that need to be accessed by a Controller ---
-    private CustomJButton homeButton;
-    private CustomJButton libraryButton;
-    private CustomJButton readingListButton;
-    private CustomJButton profileButton;
     private ProfileView profileView;
     private WelcomeView welcomeView;
     private LibraryView libraryView;
 
+    // the navigation button
+    private CustomJButton homeButton;
+    private CustomJButton libraryButton;
+    private CustomJButton readingListButton;
+    private CustomJButton profileButton;
 
-    // --- References to the different View Panels ---
 
-//    private JPanel readingListView; // Placeholder
+
+
 
 
     public MainFrame(User user) {
-        // --- 1. Basic Window Setup ---
+        // basic setup
         this.userName = user.getFirstName();
         this.userId = user.getUserId();
         setTitle("BookHaven Library");
@@ -55,26 +54,23 @@ public class MainFrame extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // --- 2. Initialize the UI components ---
+
         initToolBar();
         initViews();
     }
 
-    /**
-     * Creates and configures the top navigation toolbar and its buttons.
-     */
+
     private void initToolBar() {
         JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(false);
         toolBar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // --- Initialize the button fields using CustomJButton ---
         homeButton = new CustomJButton("Home");
         libraryButton = new CustomJButton("Library");
         readingListButton = new CustomJButton("Reading List");
         profileButton = new CustomJButton("Profile");
 
-        // Use an array to apply consistent styling easily
+
         CustomJButton[] buttons = {homeButton, libraryButton, readingListButton, profileButton};
         Font buttonFont = new Font("SansSerif", Font.BOLD, 14);
 
@@ -97,9 +93,8 @@ public class MainFrame extends JFrame{
         add(toolBar, BorderLayout.NORTH);
     }
 
-    /**
-     * Creates the central panel with CardLayout and adds all the different views.
-     */
+
+    // adding all the view for the main franw
     private void initViews() {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
@@ -108,15 +103,10 @@ public class MainFrame extends JFrame{
         welcomeView = new WelcomeView(userName);
         libraryView = new LibraryView();
         readerView = new ReaderView();
-
-        // Placeholders for views to be developed later
         readingListView = new ReadingListView();
-
         bookDetailsView = new BookDetailsView();
         profileView = new ProfileView();
-        // profileView.add(new JLabel("This is your Profile."));
 
-        // Add the views to the main panel with unique String keys
         mainPanel.add(welcomeView, "WELCOME");
         mainPanel.add(libraryView, "LIBRARY");
         mainPanel.add(readingListView, "READING_LIST");
@@ -129,18 +119,11 @@ public class MainFrame extends JFrame{
         add(mainPanel, BorderLayout.CENTER);
     }
 
-    // --- PUBLIC METHODS FOR THE CONTROLLER ---
-
-    /**
-     * Allows the controller to switch the visible panel.
-     * This is the only "action" this class performs, and it's on command.
-     */
+    // switching the panels
     public void showView(String viewName) {
         cardLayout.show(mainPanel, viewName);
     }
 
-    // --- GETTERS FOR COMPONENTS ---
-    // These methods allow the controller to "get" the components it needs to control.
 
     public CustomJButton getHomeButton() {
         return homeButton;
@@ -176,7 +159,8 @@ public class MainFrame extends JFrame{
         return  userId;
     }
 
-    public ProfileView getProfileView() { return profileView; }
+    public ProfileView getProfileView() {
+        return profileView; }
 
-    // You can add getters for other views as controllers need them
+
 }

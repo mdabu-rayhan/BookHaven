@@ -15,7 +15,6 @@ public class ReaderView extends JPanel {
     private JButton nextPageButton;
     private JButton prevPageButton;
     private JButton saveButton;
-    // kept as a field so we can resize it on window changes
     private JScrollPane scrollPane;
 
     public ReaderView() {
@@ -66,6 +65,8 @@ public class ReaderView extends JPanel {
         scrollPane.setBackground(Color.WHITE);
 
         // wrap to keep the content column centered and not full-width
+
+
         JPanel centerWrap = new JPanel(new GridBagLayout());
         centerWrap.setOpaque(false);
         centerWrap.add(scrollPane);
@@ -80,12 +81,15 @@ public class ReaderView extends JPanel {
         add(centerWrap, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        // initial preferred size; adjustContentWidth will keep this responsive
+        // maybe to update te size upon resizeing
+
         Dimension initial = new Dimension(Math.min(900, Math.max(600, getWidth() - 200)), Math.max(360, getHeight() - 220));
         scrollPane.setPreferredSize(initial);
     }
 
     // keep the reading column a reasonable width on resize
+
+
     private void adjustContentWidth() {
         if (scrollPane == null) return;
         int w = getWidth();

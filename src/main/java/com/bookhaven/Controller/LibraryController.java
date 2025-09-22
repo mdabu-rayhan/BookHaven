@@ -9,7 +9,7 @@ import com.bookhaven.View.MainFrame;
 
 import java.util.List;
 
-// LibraryController: asks BookService for data (-> BookDAO) and tells LibraryView to render
+// loads all the books and then goes to book details upon selection
 public class LibraryController {
 
     private final MainFrame mainFrame;

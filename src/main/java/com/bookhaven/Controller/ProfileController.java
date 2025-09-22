@@ -85,7 +85,6 @@ public class ProfileController {
     }
 
     private void handleLogout() {
-        // close main frame and relaunch login
         SwingUtilities.invokeLater(() -> {
             try {
                 if (mainFrame != null) {

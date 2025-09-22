@@ -8,7 +8,7 @@ import com.bookhaven.View.ReadingListView;
 
 import java.util.List;
 
-// ReadingListController: asks ReadingListService (-> DAO) for data and updates the view
+// ReadingListController -> ReadingListService (-> DAO) for data and updates the view
 public class ReadingListController {
 
     private final MainFrame mainFrame;
@@ -22,11 +22,11 @@ public class ReadingListController {
         this.currentUserId = userId;
 
         ReadingListView readingListView = mainFrame.getReadingListView();
-        // when a book in the reading list is clicked, open the reader
+        // when clicked, open the reader
         readingListView.setOnBookSelected(this::handleBookSelectionForReading);
     }
 
-    // pull user's list via service and render it
+    // loads user reading list from the table
     public void loadUserReadingList() {
         List<Book> userBooks = readingListService.getUserReadingList(currentUserId);
         ReadingListView readingListView = mainFrame.getReadingListView();
@@ -51,7 +51,7 @@ public class ReadingListController {
         return readingListService.isBookInReadingList(currentUserId, bookId);
     }
 
-    // open reader view for the clicked book and load content
+    // oopen reader view to start reading
     private void handleBookSelectionForReading(Book selectedBook) {
         ReaderView readerView = mainFrame.getReaderView();
         readerController = new ReaderController(readerView, currentUserId);

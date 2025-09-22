@@ -28,10 +28,7 @@ public class LibraryView extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    /**
-     * Clears the current view and displays a new list of books.
-     * @param books The list of Book objects to display.
-     */
+    //loads all the books from the db, called upon going to library button
     public void displayBooks(List<Book> books) {
         bookGridPanel.removeAll();
 
@@ -39,6 +36,8 @@ public class LibraryView extends JPanel {
             JPanel bookPanel = new JPanel(new BorderLayout(5, 5));
             bookPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
             bookPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+
 
             JLabel coverLabel = new JLabel();
             coverLabel.setHorizontalAlignment(SwingConstants.CENTER);

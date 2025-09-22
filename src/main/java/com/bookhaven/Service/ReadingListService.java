@@ -4,6 +4,7 @@ import com.bookhaven.DataAccessLayer.ReadingListDAO;
 import com.bookhaven.DataAccessLayer.BookDAO;
 import com.bookhaven.Model.Book;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,13 +35,26 @@ public class ReadingListService {
         return readingListDAO.removeBookFromReadingList(userId, bookId);
     }
 
-    // fetch all book ids for the user, then hydrate each with BookDAO
+    // fetch all book ids for the user,then extract books using bookdao
     public List<Book> getUserReadingList(int userId) {
         List<Integer> bookIds = readingListDAO.getBookIdsForUser(userId);
-        return bookIds.stream()
-                .map(bookDAO::getBookById)
-                .filter(book -> book != null)
-                .collect(Collectors.toList());
+        List<Book> books = new ArrayList<>();
+
+        // nothing to do if there are no ids
+        if (bookIds == null || bookIds.isEmpty()) {
+            return books;
+        }
+        for (Integer bookId : bookIds) {
+            if (bookId == null){
+                continue;
+            }
+            Book book = bookDAO.getBookById(bookId);
+            if (book != null) {
+                books.add(book);
+            }
+        }
+
+        return books;
     }
 
     public boolean isBookInReadingList(int userId, int bookId) {

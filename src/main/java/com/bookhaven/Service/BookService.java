@@ -22,8 +22,9 @@ public class BookService {
         return bookDAO.getBookById(bookId);
     }
 
+
+    // used for manually adding books
     public boolean addBook(Book book) {
-        // small guardrails before touching the DB
         if (book == null || book.getTitle() == null || book.getTitle().trim().isEmpty()) {
             System.err.println("Book title is required");
             return false;
@@ -40,21 +41,5 @@ public class BookService {
         }
     }
 
-    public List<Book> searchBooksByTitle(String title) {
-        if (title == null || title.trim().isEmpty()) {
-            return getAllBooks();
-        }
-        return getAllBooks().stream()
-                .filter(book -> book.getTitle().toLowerCase().contains(title.toLowerCase()))
-                .toList();
-    }
 
-    public List<Book> searchBooksByAuthor(String author) {
-        if (author == null || author.trim().isEmpty()) {
-            return getAllBooks();
-        }
-        return getAllBooks().stream()
-                .filter(book -> book.getAuthor().toLowerCase().contains(author.toLowerCase()))
-                .toList();
-    }
 }
